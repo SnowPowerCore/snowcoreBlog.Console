@@ -15,6 +15,7 @@ using snowcoreBlog.Console.App.Models;
 using snowcoreBlog.Console.App.Services;
 using snowcoreBlog.ConsoleHandling.Interfaces;
 using snowcoreBlog.ConsoleHandling.Services;
+using snowcoreBlog.ServiceDefaults.Extensions;
 using snowcoreBlog.LocalStorage.Interfaces;
 using snowcoreBlog.LocalStorage.Services;
 using snowcoreBlog.ResourceLoading.Interfaces;
@@ -45,6 +46,8 @@ var retryPolicy = HttpPolicyExtensions
         TimeSpan.FromSeconds(5),
         TimeSpan.FromSeconds(10)
     ]);
+
+builder.AddServiceDefaults();
 
 builder.Services.AddSingleton<ILocalStorage>(sp =>
     new LocalStorage(new LocalStorageConfiguration { AutoLoad = true, AutoSave = true }));

@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "snowcoreBlog.TelemetryHandl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "snowcoreBlog.HttpClientInterception", "snowcoreBlog.Universal\UniversalModules\HttpClientInterception\snowcoreBlog.HttpClientInterception.csproj", "{354C8479-4E39-4E2F-81AF-F8CD575BAD71}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "snowcoreBlog.ServiceDefaults", "snowcoreBlog.Universal\ServiceDefaults\snowcoreBlog.ServiceDefaults.csproj", "{C9ADECC2-1BB1-4974-91D0-E4163DFE651E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{354C8479-4E39-4E2F-81AF-F8CD575BAD71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{354C8479-4E39-4E2F-81AF-F8CD575BAD71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{354C8479-4E39-4E2F-81AF-F8CD575BAD71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9ADECC2-1BB1-4974-91D0-E4163DFE651E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9ADECC2-1BB1-4974-91D0-E4163DFE651E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9ADECC2-1BB1-4974-91D0-E4163DFE651E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9ADECC2-1BB1-4974-91D0-E4163DFE651E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
