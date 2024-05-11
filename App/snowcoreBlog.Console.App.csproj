@@ -42,20 +42,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference
-      Include="..\snowcoreBlog.Universal\UniversalModules\LocalStorage\snowcoreBlog.LocalStorage.csproj" />
-    <ProjectReference
-      Include="..\snowcoreBlog.Universal\UniversalModules\ResourceLoading\snowcoreBlog.ResourceLoading.csproj" />
-    <ProjectReference
-      Include="..\snowcoreBlog.Universal\UniversalModules\ConsoleHandling\snowcoreBlog.ConsoleHandling.csproj" />
-    <ProjectReference
-      Include="..\snowcoreBlog.Universal\UniversalModules\VersionTracking\snowcoreBlog.VersionTracking.csproj" />
-    <ProjectReference
-      Include="..\snowcoreBlog.Universal\UniversalModules\ApplicationLaunch\snowcoreBlog.ApplicationLaunch.csproj" />
-    <ProjectReference
-      Include="..\snowcoreBlog.Universal\UniversalModules\TelemetryHandling\snowcoreBlog.TelemetryHandling.csproj" />
-    <ProjectReference
-      Include="..\snowcoreBlog.Universal\UniversalModules\HttpClientInterception\snowcoreBlog.HttpClientInterception.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\LocalStorage\snowcoreBlog.LocalStorage.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\ResourceLoading\snowcoreBlog.ResourceLoading.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\ConsoleHandling\snowcoreBlog.ConsoleHandling.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\VersionTracking\snowcoreBlog.VersionTracking.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\ApplicationLaunch\snowcoreBlog.ApplicationLaunch.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\TelemetryHandling\snowcoreBlog.TelemetryHandling.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\HttpClientInterception\snowcoreBlog.HttpClientInterception.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\ServiceDefaults\snowcoreBlog.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>
