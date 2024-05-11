@@ -36,8 +36,8 @@
               "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ApplicationLaunch\\snowcoreBlog.ApplicationLaunch.csproj": {
                 "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ApplicationLaunch\\snowcoreBlog.ApplicationLaunch.csproj"
               },
-              "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj": {
-                "projectPath": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj"
+              "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj": {
+                "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj"
               },
               "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\HttpClientInterception\\snowcoreBlog.HttpClientInterception.csproj": {
                 "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\HttpClientInterception\\snowcoreBlog.HttpClientInterception.csproj"
@@ -45,8 +45,8 @@
               "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\LocalStorage\\snowcoreBlog.LocalStorage.csproj": {
                 "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\LocalStorage\\snowcoreBlog.LocalStorage.csproj"
               },
-              "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj": {
-                "projectPath": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj"
+              "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj": {
+                "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj"
               },
               "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\TelemetryHandling\\snowcoreBlog.TelemetryHandling.csproj": {
                 "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\TelemetryHandling\\snowcoreBlog.TelemetryHandling.csproj"
@@ -200,14 +200,14 @@
         }
       }
     },
-    "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj": {
+    "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj",
+        "projectUniqueName": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj",
         "projectName": "snowcoreBlog.ConsoleHandling",
-        "projectPath": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj",
+        "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj",
         "packagesPath": "E:\\Cache\\Nuget\\packages",
-        "outputPath": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\obj\\",
+        "outputPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Programs\\Visual Studio\\Shared\\NuGetPackages"
@@ -439,14 +439,14 @@
         }
       }
     },
-    "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj": {
+    "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj",
+        "projectUniqueName": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj",
         "projectName": "snowcoreBlog.ResourceLoading",
-        "projectPath": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj",
+        "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj",
         "packagesPath": "E:\\Cache\\Nuget\\packages",
-        "outputPath": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\obj\\",
+        "outputPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Programs\\Visual Studio\\Shared\\NuGetPackages"
