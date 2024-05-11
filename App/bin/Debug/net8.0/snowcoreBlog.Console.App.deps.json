@@ -11,12 +11,8 @@
           "ConfigureAwait.Fody": "3.3.2",
           "Fody": "6.8.0",
           "Microsoft.Extensions.FileProviders.Embedded": "8.0.4",
-          "Microsoft.Extensions.Hosting": "8.0.0",
           "Microsoft.Extensions.Http.Polly": "8.0.4",
-          "MinimalStepifiedSystem.Core": "1.0.0.1",
           "Polly": "8.3.1",
-          "Refit": "7.0.0",
-          "Refit.HttpClientFactory": "7.0.0",
           "snowcoreBlog.ApplicationLaunch": "1.0.0",
           "snowcoreBlog.ConsoleHandling": "1.0.0",
           "snowcoreBlog.HttpClientInterception": "1.0.0",
@@ -518,30 +514,6 @@
           }
         }
       },
-      "Refit/7.0.0": {
-        "dependencies": {
-          "System.Net.Http.Json": "7.0.1",
-          "System.Text.Json": "8.0.0"
-        },
-        "runtime": {
-          "lib/net7.0/Refit.dll": {
-            "assemblyVersion": "7.0.0.0",
-            "fileVersion": "7.0.0.12"
-          }
-        }
-      },
-      "Refit.HttpClientFactory/7.0.0": {
-        "dependencies": {
-          "Microsoft.Extensions.Http": "8.0.0",
-          "Refit": "7.0.0"
-        },
-        "runtime": {
-          "lib/net7.0/Refit.HttpClientFactory.dll": {
-            "assemblyVersion": "7.0.0.0",
-            "fileVersion": "7.0.0.12"
-          }
-        }
-      },
       "System.Diagnostics.DiagnosticSource/8.0.0": {},
       "System.Diagnostics.EventLog/8.0.0": {
         "runtime": {
@@ -563,11 +535,6 @@
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.23.53103"
           }
-        }
-      },
-      "System.Net.Http.Json/7.0.1": {
-        "dependencies": {
-          "System.Text.Json": "8.0.0"
         }
       },
       "System.Text.Encodings.Web/8.0.0": {},
@@ -929,20 +896,6 @@
       "path": "polly.extensions.http/3.0.0",
       "hashPath": "polly.extensions.http.3.0.0.nupkg.sha512"
     },
-    "Refit/7.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-MeOXucNjebiLiOM+hM4niN2cWLlwaQWNCGZs0LDUEoCVwOtV/IWOMOqlAbUeb8Y0/iOgMai2g6Gz9M/d6V7gtA==",
-      "path": "refit/7.0.0",
-      "hashPath": "refit.7.0.0.nupkg.sha512"
-    },
-    "Refit.HttpClientFactory/7.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-27zuHqcN2BJbNqGF0OlUAPEKNnPFibJVHsS5XnViS2Brw1ceCbzYsDqP19dlgWCb/sLGFxSpRWhkCimOo8jljw==",
-      "path": "refit.httpclientfactory/7.0.0",
-      "hashPath": "refit.httpclientfactory.7.0.0.nupkg.sha512"
-    },
     "System.Diagnostics.DiagnosticSource/8.0.0": {
       "type": "package",
       "serviceable": true,
@@ -956,13 +909,6 @@
       "sha512": "sha512-fdYxcRjQqTTacKId/2IECojlDSFvp7LP5N78+0z/xH7v/Tuw5ZAxu23Y6PTCRinqyu2ePx+Gn1098NC6jM6d+A==",
       "path": "system.diagnostics.eventlog/8.0.0",
       "hashPath": "system.diagnostics.eventlog.8.0.0.nupkg.sha512"
-    },
-    "System.Net.Http.Json/7.0.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-ni8+BJnndbJI9AXme/qCYXg1s4RpdRJx3gKp5WzcWuLt4l3syuscgk5Becis6x4E7HbQk4z6A7FNXFQD75F+wQ==",
-      "path": "system.net.http.json/7.0.1",
-      "hashPath": "system.net.http.json.7.0.1.nupkg.sha512"
     },
     "System.Text.Encodings.Web/8.0.0": {
       "type": "package",
