@@ -32,6 +32,526 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
+            "projectReferences": {
+              "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ApplicationLaunch\\snowcoreBlog.ApplicationLaunch.csproj": {
+                "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ApplicationLaunch\\snowcoreBlog.ApplicationLaunch.csproj"
+              },
+              "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj": {
+                "projectPath": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj"
+              },
+              "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\HttpClientInterception\\snowcoreBlog.HttpClientInterception.csproj": {
+                "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\HttpClientInterception\\snowcoreBlog.HttpClientInterception.csproj"
+              },
+              "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\LocalStorage\\snowcoreBlog.LocalStorage.csproj": {
+                "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\LocalStorage\\snowcoreBlog.LocalStorage.csproj"
+              },
+              "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj": {
+                "projectPath": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj"
+              },
+              "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\TelemetryHandling\\snowcoreBlog.TelemetryHandling.csproj": {
+                "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\TelemetryHandling\\snowcoreBlog.TelemetryHandling.csproj"
+              },
+              "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\VersionTracking\\snowcoreBlog.VersionTracking.csproj": {
+                "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\VersionTracking\\snowcoreBlog.VersionTracking.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "ConfigureAwait.Fody": {
+              "target": "Package",
+              "version": "[3.3.2, )"
+            },
+            "Fody": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.8.0, )"
+            },
+            "Microsoft.Extensions.FileProviders.Embedded": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.Extensions.Http.Polly": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Polly": {
+              "target": "Package",
+              "version": "[8.3.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ApplicationLaunch\\snowcoreBlog.ApplicationLaunch.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ApplicationLaunch\\snowcoreBlog.ApplicationLaunch.csproj",
+        "projectName": "snowcoreBlog.ApplicationLaunch",
+        "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ApplicationLaunch\\snowcoreBlog.ApplicationLaunch.csproj",
+        "packagesPath": "E:\\Cache\\Nuget\\packages",
+        "outputPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ApplicationLaunch\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Programs\\Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "ConfigureAwait.Fody": {
+              "target": "Package",
+              "version": "[3.3.2, )"
+            },
+            "Fody": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.8.0, )"
+            },
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "MinimalStepifiedSystem.Core": {
+              "target": "Package",
+              "version": "[1.0.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj",
+        "projectName": "snowcoreBlog.ConsoleHandling",
+        "projectPath": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj",
+        "packagesPath": "E:\\Cache\\Nuget\\packages",
+        "outputPath": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Programs\\Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "ConfigureAwait.Fody": {
+              "target": "Package",
+              "version": "[3.3.2, )"
+            },
+            "Fody": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.8.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\HttpClientInterception\\snowcoreBlog.HttpClientInterception.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\HttpClientInterception\\snowcoreBlog.HttpClientInterception.csproj",
+        "projectName": "snowcoreBlog.HttpClientInterception",
+        "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\HttpClientInterception\\snowcoreBlog.HttpClientInterception.csproj",
+        "packagesPath": "E:\\Cache\\Nuget\\packages",
+        "outputPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\HttpClientInterception\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Programs\\Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "ConfigureAwait.Fody": {
+              "target": "Package",
+              "version": "[3.3.2, )"
+            },
+            "Fody": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.8.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\LocalStorage\\snowcoreBlog.LocalStorage.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\LocalStorage\\snowcoreBlog.LocalStorage.csproj",
+        "projectName": "snowcoreBlog.LocalStorage",
+        "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\LocalStorage\\snowcoreBlog.LocalStorage.csproj",
+        "packagesPath": "E:\\Cache\\Nuget\\packages",
+        "outputPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\LocalStorage\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Programs\\Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "ConfigureAwait.Fody": {
+              "target": "Package",
+              "version": "[3.3.2, )"
+            },
+            "Fody": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.8.0, )"
+            },
+            "LocalStorage": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj",
+        "projectName": "snowcoreBlog.ResourceLoading",
+        "projectPath": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj",
+        "packagesPath": "E:\\Cache\\Nuget\\packages",
+        "outputPath": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Programs\\Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "ConfigureAwait.Fody": {
+              "target": "Package",
+              "version": "[3.3.2, )"
+            },
+            "Fody": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.8.0, )"
+            },
+            "Microsoft.Extensions.Options": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "MinimalStepifiedSystem.Core": {
+              "target": "Package",
+              "version": "[1.0.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\TelemetryHandling\\snowcoreBlog.TelemetryHandling.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\TelemetryHandling\\snowcoreBlog.TelemetryHandling.csproj",
+        "projectName": "snowcoreBlog.TelemetryHandling",
+        "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\TelemetryHandling\\snowcoreBlog.TelemetryHandling.csproj",
+        "packagesPath": "E:\\Cache\\Nuget\\packages",
+        "outputPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\TelemetryHandling\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Programs\\Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -63,34 +583,91 @@
             "Microsoft.ApplicationInsights": {
               "target": "Package",
               "version": "[2.22.0, )"
-            },
-            "Microsoft.Extensions.FileProviders.Embedded": {
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\VersionTracking\\snowcoreBlog.VersionTracking.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\VersionTracking\\snowcoreBlog.VersionTracking.csproj",
+        "projectName": "snowcoreBlog.VersionTracking",
+        "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\VersionTracking\\snowcoreBlog.VersionTracking.csproj",
+        "packagesPath": "E:\\Cache\\Nuget\\packages",
+        "outputPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\VersionTracking\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Programs\\Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\LocalStorage\\snowcoreBlog.LocalStorage.csproj": {
+                "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\LocalStorage\\snowcoreBlog.LocalStorage.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "ConfigureAwait.Fody": {
               "target": "Package",
-              "version": "[8.0.4, )"
+              "version": "[3.3.2, )"
             },
-            "Microsoft.Extensions.Hosting": {
+            "Fody": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.0, )"
-            },
-            "Microsoft.Extensions.Http.Polly": {
-              "target": "Package",
-              "version": "[8.0.4, )"
+              "version": "[6.8.0, )"
             },
             "MinimalStepifiedSystem.Core": {
               "target": "Package",
               "version": "[1.0.0.1, )"
-            },
-            "Polly": {
-              "target": "Package",
-              "version": "[8.3.1, )"
-            },
-            "Refit": {
-              "target": "Package",
-              "version": "[7.0.0, )"
-            },
-            "Refit.HttpClientFactory": {
-              "target": "Package",
-              "version": "[7.0.0, )"
             }
           },
           "imports": [

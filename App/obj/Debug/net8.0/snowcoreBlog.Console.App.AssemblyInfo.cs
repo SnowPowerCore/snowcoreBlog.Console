@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("snowcoreBlog.Console.App")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ca7e8f7d28ca77003e76958b5bdf26eaa7d51ac5")]
 [assembly: System.Reflection.AssemblyProductAttribute("snowcoreBlog.Console.App")]
 [assembly: System.Reflection.AssemblyTitleAttribute("snowcoreBlog.Console.App")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
