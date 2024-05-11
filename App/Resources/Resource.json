@@ -1,0 +1,9 @@
+[
+    {
+        "Key": "WelcomeMessage",
+        "LocalizedValues": {
+            "_": "Hello world!",
+            "en-US": "Hello world!"
+        }
+    }
+]

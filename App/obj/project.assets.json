@@ -43,6 +43,18 @@
           "build/Fody.targets": {}
         }
       },
+      "LocalStorage/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/LocalStorage.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/LocalStorage.dll": {}
+        }
+      },
       "Microsoft.ApplicationInsights/2.22.0": {
         "type": "package",
         "dependencies": {
@@ -718,6 +730,19 @@
           "lib/netstandard2.1/MinimalStepifiedSystem.Core.dll": {}
         }
       },
+      "Newtonsoft.Json/12.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Polly/8.3.1": {
         "type": "package",
         "dependencies": {
@@ -759,44 +784,6 @@
         },
         "runtime": {
           "lib/netstandard2.0/Polly.Extensions.Http.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "Refit/7.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Net.Http.Json": "7.0.1",
-          "System.Text.Json": "7.0.3"
-        },
-        "compile": {
-          "lib/net7.0/Refit.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net7.0/Refit.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/netstandard2.0/refit.props": {},
-          "buildTransitive/netstandard2.0/refit.targets": {}
-        }
-      },
-      "Refit.HttpClientFactory/7.0.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.Http": "7.0.0",
-          "Refit": "7.0.0"
-        },
-        "compile": {
-          "lib/net7.0/Refit.HttpClientFactory.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net7.0/Refit.HttpClientFactory.dll": {
             "related": ".xml"
           }
         }
@@ -843,25 +830,6 @@
           }
         }
       },
-      "System.Net.Http.Json/7.0.1": {
-        "type": "package",
-        "dependencies": {
-          "System.Text.Json": "7.0.2"
-        },
-        "compile": {
-          "lib/net7.0/System.Net.Http.Json.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net7.0/System.Net.Http.Json.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net6.0/_._": {}
-        }
-      },
       "System.Text.Encodings.Web/8.0.0": {
         "type": "package",
         "compile": {
@@ -901,6 +869,106 @@
         },
         "build": {
           "buildTransitive/net6.0/System.Text.Json.targets": {}
+        }
+      },
+      "snowcoreBlog.ApplicationLaunch/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "ConfigureAwait.Fody": "3.3.2",
+          "Microsoft.Extensions.Hosting": "8.0.0",
+          "MinimalStepifiedSystem.Core": "1.0.0.1"
+        },
+        "compile": {
+          "bin/placeholder/snowcoreBlog.ApplicationLaunch.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/snowcoreBlog.ApplicationLaunch.dll": {}
+        }
+      },
+      "snowcoreBlog.ConsoleHandling/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "ConfigureAwait.Fody": "3.3.2"
+        },
+        "compile": {
+          "bin/placeholder/snowcoreBlog.ConsoleHandling.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/snowcoreBlog.ConsoleHandling.dll": {}
+        }
+      },
+      "snowcoreBlog.HttpClientInterception/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "ConfigureAwait.Fody": "3.3.2",
+          "Microsoft.Extensions.DependencyInjection": "8.0.0"
+        },
+        "compile": {
+          "bin/placeholder/snowcoreBlog.HttpClientInterception.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/snowcoreBlog.HttpClientInterception.dll": {}
+        }
+      },
+      "snowcoreBlog.LocalStorage/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "ConfigureAwait.Fody": "3.3.2",
+          "LocalStorage": "2.1.0"
+        },
+        "compile": {
+          "bin/placeholder/snowcoreBlog.LocalStorage.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/snowcoreBlog.LocalStorage.dll": {}
+        }
+      },
+      "snowcoreBlog.ResourceLoading/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "ConfigureAwait.Fody": "3.3.2",
+          "Microsoft.Extensions.Options": "8.0.0",
+          "MinimalStepifiedSystem.Core": "1.0.0.1"
+        },
+        "compile": {
+          "bin/placeholder/snowcoreBlog.ResourceLoading.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/snowcoreBlog.ResourceLoading.dll": {}
+        }
+      },
+      "snowcoreBlog.TelemetryHandling/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "ConfigureAwait.Fody": "3.3.2",
+          "Microsoft.ApplicationInsights": "2.22.0"
+        },
+        "compile": {
+          "bin/placeholder/snowcoreBlog.TelemetryHandling.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/snowcoreBlog.TelemetryHandling.dll": {}
+        }
+      },
+      "snowcoreBlog.VersionTracking/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "ConfigureAwait.Fody": "3.3.2",
+          "MinimalStepifiedSystem.Core": "1.0.0.1",
+          "snowcoreBlog.LocalStorage": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/snowcoreBlog.VersionTracking.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/snowcoreBlog.VersionTracking.dll": {}
         }
       }
     }
@@ -989,6 +1057,18 @@
         "netstandardtask/Mono.Cecil.Rocks.pdb",
         "netstandardtask/Mono.Cecil.dll",
         "netstandardtask/Mono.Cecil.pdb"
+      ]
+    },
+    "LocalStorage/2.1.0": {
+      "sha512": "2FYxEN8aQT6TxzsSsD86XLPglqEPqhdBpBzmcr9BhPgcA7gXjaVXUSaPM1FB9dI70j3XRAA4Kjpl0QaPxK1IkQ==",
+      "type": "package",
+      "path": "localstorage/2.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/LocalStorage.dll",
+        "localstorage.2.1.0.nupkg.sha512",
+        "localstorage.nuspec"
       ]
     },
     "Microsoft.ApplicationInsights/2.22.0": {
@@ -1982,6 +2062,37 @@
         "minimalstepifiedsystem.core.nuspec"
       ]
     },
+    "Newtonsoft.Json/12.0.3": {
+      "sha512": "6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+      "type": "package",
+      "path": "newtonsoft.json/12.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "newtonsoft.json.12.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
     "Polly/8.3.1": {
       "sha512": "xN9AxOudus8u4a//Tfu6Wxd5Oj7S4pjh/651S6FfIiVrbxQ8TeM+ieZC8c0y7Qto70zKBM5g8rBTqbAJnbetOA==",
       "type": "package",
@@ -2050,57 +2161,6 @@
         "polly.extensions.http.nuspec"
       ]
     },
-    "Refit/7.0.0": {
-      "sha512": "MeOXucNjebiLiOM+hM4niN2cWLlwaQWNCGZs0LDUEoCVwOtV/IWOMOqlAbUeb8Y0/iOgMai2g6Gz9M/d6V7gtA==",
-      "type": "package",
-      "path": "refit/7.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE/LICENSE",
-        "README.md",
-        "analyzers/dotnet/roslyn3.8/cs/InterfaceStubGeneratorV1.dll",
-        "analyzers/dotnet/roslyn4.0/cs/InterfaceStubGeneratorV2.dll",
-        "build/netstandard2.0/refit.targets",
-        "buildTransitive/netstandard2.0/refit.props",
-        "buildTransitive/netstandard2.0/refit.targets",
-        "lib/net462/Refit.dll",
-        "lib/net462/Refit.xml",
-        "lib/net6.0/Refit.dll",
-        "lib/net6.0/Refit.xml",
-        "lib/net7.0/Refit.dll",
-        "lib/net7.0/Refit.xml",
-        "lib/netstandard2.0/Refit.dll",
-        "lib/netstandard2.0/Refit.xml",
-        "lib/netstandard2.1/Refit.dll",
-        "lib/netstandard2.1/Refit.xml",
-        "refit.7.0.0.nupkg.sha512",
-        "refit.nuspec",
-        "refit_logo.png"
-      ]
-    },
-    "Refit.HttpClientFactory/7.0.0": {
-      "sha512": "27zuHqcN2BJbNqGF0OlUAPEKNnPFibJVHsS5XnViS2Brw1ceCbzYsDqP19dlgWCb/sLGFxSpRWhkCimOo8jljw==",
-      "type": "package",
-      "path": "refit.httpclientfactory/7.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE/LICENSE",
-        "README.md",
-        "lib/net462/Refit.HttpClientFactory.dll",
-        "lib/net462/Refit.HttpClientFactory.xml",
-        "lib/net6.0/Refit.HttpClientFactory.dll",
-        "lib/net6.0/Refit.HttpClientFactory.xml",
-        "lib/net7.0/Refit.HttpClientFactory.dll",
-        "lib/net7.0/Refit.HttpClientFactory.xml",
-        "lib/netstandard2.0/Refit.HttpClientFactory.dll",
-        "lib/netstandard2.0/Refit.HttpClientFactory.xml",
-        "refit.httpclientfactory.7.0.0.nupkg.sha512",
-        "refit.httpclientfactory.nuspec",
-        "refit_logo.png"
-      ]
-    },
     "System.Diagnostics.DiagnosticSource/8.0.0": {
       "sha512": "c9xLpVz6PL9lp/djOWtk5KPDZq3cSYpmXoJQY524EOtuFl5z9ZtsotpsyrDW40U1DRnQSYvcPKEUV0X//u6gkQ==",
       "type": "package",
@@ -2166,33 +2226,6 @@
         "runtimes/win/lib/net8.0/System.Diagnostics.EventLog.xml",
         "system.diagnostics.eventlog.8.0.0.nupkg.sha512",
         "system.diagnostics.eventlog.nuspec",
-        "useSharedDesignerContext.txt"
-      ]
-    },
-    "System.Net.Http.Json/7.0.1": {
-      "sha512": "ni8+BJnndbJI9AXme/qCYXg1s4RpdRJx3gKp5WzcWuLt4l3syuscgk5Becis6x4E7HbQk4z6A7FNXFQD75F+wQ==",
-      "type": "package",
-      "path": "system.net.http.json/7.0.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "LICENSE.TXT",
-        "THIRD-PARTY-NOTICES.TXT",
-        "buildTransitive/net461/System.Net.Http.Json.targets",
-        "buildTransitive/net462/_._",
-        "buildTransitive/net6.0/_._",
-        "buildTransitive/netcoreapp2.0/System.Net.Http.Json.targets",
-        "lib/net462/System.Net.Http.Json.dll",
-        "lib/net462/System.Net.Http.Json.xml",
-        "lib/net6.0/System.Net.Http.Json.dll",
-        "lib/net6.0/System.Net.Http.Json.xml",
-        "lib/net7.0/System.Net.Http.Json.dll",
-        "lib/net7.0/System.Net.Http.Json.xml",
-        "lib/netstandard2.0/System.Net.Http.Json.dll",
-        "lib/netstandard2.0/System.Net.Http.Json.xml",
-        "system.net.http.json.7.0.1.nupkg.sha512",
-        "system.net.http.json.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
@@ -2303,20 +2336,57 @@
         "system.text.json.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "snowcoreBlog.ApplicationLaunch/1.0.0": {
+      "type": "project",
+      "path": "../snowcoreBlog.Universal/UniversalModules/ApplicationLaunch/snowcoreBlog.ApplicationLaunch.csproj",
+      "msbuildProject": "../snowcoreBlog.Universal/UniversalModules/ApplicationLaunch/snowcoreBlog.ApplicationLaunch.csproj"
+    },
+    "snowcoreBlog.ConsoleHandling/1.0.0": {
+      "type": "project",
+      "path": "../snowcoreBlog.Universal/UniversalModules/ConsoleHandling/snowcoreBlog.ConsoleHandling.csproj",
+      "msbuildProject": "../snowcoreBlog.Universal/UniversalModules/ConsoleHandling/snowcoreBlog.ConsoleHandling.csproj"
+    },
+    "snowcoreBlog.HttpClientInterception/1.0.0": {
+      "type": "project",
+      "path": "../snowcoreBlog.Universal/UniversalModules/HttpClientInterception/snowcoreBlog.HttpClientInterception.csproj",
+      "msbuildProject": "../snowcoreBlog.Universal/UniversalModules/HttpClientInterception/snowcoreBlog.HttpClientInterception.csproj"
+    },
+    "snowcoreBlog.LocalStorage/1.0.0": {
+      "type": "project",
+      "path": "../snowcoreBlog.Universal/UniversalModules/LocalStorage/snowcoreBlog.LocalStorage.csproj",
+      "msbuildProject": "../snowcoreBlog.Universal/UniversalModules/LocalStorage/snowcoreBlog.LocalStorage.csproj"
+    },
+    "snowcoreBlog.ResourceLoading/1.0.0": {
+      "type": "project",
+      "path": "../snowcoreBlog.Universal/UniversalModules/ResourceLoading/snowcoreBlog.ResourceLoading.csproj",
+      "msbuildProject": "../snowcoreBlog.Universal/UniversalModules/ResourceLoading/snowcoreBlog.ResourceLoading.csproj"
+    },
+    "snowcoreBlog.TelemetryHandling/1.0.0": {
+      "type": "project",
+      "path": "../snowcoreBlog.Universal/UniversalModules/TelemetryHandling/snowcoreBlog.TelemetryHandling.csproj",
+      "msbuildProject": "../snowcoreBlog.Universal/UniversalModules/TelemetryHandling/snowcoreBlog.TelemetryHandling.csproj"
+    },
+    "snowcoreBlog.VersionTracking/1.0.0": {
+      "type": "project",
+      "path": "../snowcoreBlog.Universal/UniversalModules/VersionTracking/snowcoreBlog.VersionTracking.csproj",
+      "msbuildProject": "../snowcoreBlog.Universal/UniversalModules/VersionTracking/snowcoreBlog.VersionTracking.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "ConfigureAwait.Fody >= 3.3.2",
       "Fody >= 6.8.0",
-      "Microsoft.ApplicationInsights >= 2.22.0",
       "Microsoft.Extensions.FileProviders.Embedded >= 8.0.4",
-      "Microsoft.Extensions.Hosting >= 8.0.0",
       "Microsoft.Extensions.Http.Polly >= 8.0.4",
-      "MinimalStepifiedSystem.Core >= 1.0.0.1",
       "Polly >= 8.3.1",
-      "Refit >= 7.0.0",
-      "Refit.HttpClientFactory >= 7.0.0"
+      "snowcoreBlog.ApplicationLaunch >= 1.0.0",
+      "snowcoreBlog.ConsoleHandling >= 1.0.0",
+      "snowcoreBlog.HttpClientInterception >= 1.0.0",
+      "snowcoreBlog.LocalStorage >= 1.0.0",
+      "snowcoreBlog.ResourceLoading >= 1.0.0",
+      "snowcoreBlog.TelemetryHandling >= 1.0.0",
+      "snowcoreBlog.VersionTracking >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -2351,7 +2421,29 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ApplicationLaunch\\snowcoreBlog.ApplicationLaunch.csproj": {
+              "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ApplicationLaunch\\snowcoreBlog.ApplicationLaunch.csproj"
+            },
+            "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj": {
+              "projectPath": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ConsoleHandling\\snowcoreBlog.ConsoleHandling.csproj"
+            },
+            "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\HttpClientInterception\\snowcoreBlog.HttpClientInterception.csproj": {
+              "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\HttpClientInterception\\snowcoreBlog.HttpClientInterception.csproj"
+            },
+            "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\LocalStorage\\snowcoreBlog.LocalStorage.csproj": {
+              "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\LocalStorage\\snowcoreBlog.LocalStorage.csproj"
+            },
+            "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj": {
+              "projectPath": "e:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\ResourceLoading\\snowcoreBlog.ResourceLoading.csproj"
+            },
+            "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\TelemetryHandling\\snowcoreBlog.TelemetryHandling.csproj": {
+              "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\TelemetryHandling\\snowcoreBlog.TelemetryHandling.csproj"
+            },
+            "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\VersionTracking\\snowcoreBlog.VersionTracking.csproj": {
+              "projectPath": "E:\\Repos\\snowcoreBlog\\snowcoreBlog.Console\\snowcoreBlog.Universal\\UniversalModules\\VersionTracking\\snowcoreBlog.VersionTracking.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -2379,37 +2471,17 @@
             "target": "Package",
             "version": "[6.8.0, )"
           },
-          "Microsoft.ApplicationInsights": {
-            "target": "Package",
-            "version": "[2.22.0, )"
-          },
           "Microsoft.Extensions.FileProviders.Embedded": {
             "target": "Package",
             "version": "[8.0.4, )"
-          },
-          "Microsoft.Extensions.Hosting": {
-            "target": "Package",
-            "version": "[8.0.0, )"
           },
           "Microsoft.Extensions.Http.Polly": {
             "target": "Package",
             "version": "[8.0.4, )"
           },
-          "MinimalStepifiedSystem.Core": {
-            "target": "Package",
-            "version": "[1.0.0.1, )"
-          },
           "Polly": {
             "target": "Package",
             "version": "[8.3.1, )"
-          },
-          "Refit": {
-            "target": "Package",
-            "version": "[7.0.0, )"
-          },
-          "Refit.HttpClientFactory": {
-            "target": "Package",
-            "version": "[7.0.0, )"
           }
         },
         "imports": [
