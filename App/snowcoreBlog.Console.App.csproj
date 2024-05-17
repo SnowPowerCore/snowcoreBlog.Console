@@ -42,14 +42,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\LocalStorage\snowcoreBlog.LocalStorage.csproj" />
-    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\ResourceLoading\snowcoreBlog.ResourceLoading.csproj" />
-    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\ConsoleHandling\snowcoreBlog.ConsoleHandling.csproj" />
-    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\VersionTracking\snowcoreBlog.VersionTracking.csproj" />
-    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\ApplicationLaunch\snowcoreBlog.ApplicationLaunch.csproj" />
-    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\TelemetryHandling\snowcoreBlog.TelemetryHandling.csproj" />
-    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\HttpClientInterception\snowcoreBlog.HttpClientInterception.csproj" />
     <ProjectReference Include="..\snowcoreBlog.Universal\ServiceDefaults\snowcoreBlog.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\ApplicationLaunch.Implementations\snowcoreBlog.ApplicationLaunch.Implementations.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\ConsoleHandling.Implementations\snowcoreBlog.ConsoleHandling.Implementations.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\HttpClientInterception.Implementations\snowcoreBlog.HttpClientInterception.Implementations.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\LocalStorage.Implementations\snowcoreBlog.LocalStorage.Implementations.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\ResourceLoading.Implementations\snowcoreBlog.ResourceLoading.Implementations.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\TelemetryHandling.Implementations\snowcoreBlog.TelemetryHandling.Implementations.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\VersionTracking.Implementations\snowcoreBlog.VersionTracking.Implementations.csproj" />
   </ItemGroup>
 
 </Project>
