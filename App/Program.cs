@@ -8,27 +8,27 @@ using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Timeout;
-using snowcoreBlog.ApplicationLaunch;
+using snowcoreBlog.ApplicationLaunch.Implementations.BackgroundServices;
 using snowcoreBlog.ApplicationLaunch.Interfaces;
 using snowcoreBlog.Console.App.Interfaces;
 using snowcoreBlog.Console.App.Models;
+using snowcoreBlog.Console.App.Screens;
 using snowcoreBlog.Console.App.Services;
+using snowcoreBlog.Console.App.Steps.Launch.EveryTime;
+using snowcoreBlog.ConsoleHandling.Implementations.Services;
 using snowcoreBlog.ConsoleHandling.Interfaces;
-using snowcoreBlog.ConsoleHandling.Services;
-using snowcoreBlog.ServiceDefaults.Extensions;
+using snowcoreBlog.HttpClientInterception.Implementations.Extensions;
+using snowcoreBlog.HttpClientInterception.Interfaces;
+using snowcoreBlog.LocalStorage.Implementations.Services;
 using snowcoreBlog.LocalStorage.Interfaces;
-using snowcoreBlog.LocalStorage.Services;
+using snowcoreBlog.ResourceLoading.Implementations.Services;
 using snowcoreBlog.ResourceLoading.Interfaces;
 using snowcoreBlog.ResourceLoading.Models;
-using snowcoreBlog.ResourceLoading.Services;
+using snowcoreBlog.ServiceDefaults.Extensions;
+using snowcoreBlog.TelemetryHandling.Implementations.Services;
 using snowcoreBlog.TelemetryHandling.Interfaces;
-using snowcoreBlog.TelemetryHandling.Services;
+using snowcoreBlog.VersionTracking.Implementations.Services;
 using snowcoreBlog.VersionTracking.Interfaces;
-using snowcoreBlog.VersionTracking.Services;
-using snowcoreBlog.HttpClientInterception.Extensions;
-using snowcoreBlog.HttpClientInterception.Interfaces;
-using snowcoreBlog.Console.App.Screens;
-using snowcoreBlog.Console.App.Steps.Launch.EveryTime;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -104,7 +104,7 @@ builder.Services.Configure<KnownScreens>(ks =>
 builder.Services.AddOptions();
 
 builder.Services.AddHostedService(sp =>
-    new ProgramWorker(sp.GetRequiredService<IHostApplicationLifetime>(),
+    new ApplicationLaunchWorker(sp.GetRequiredService<IHostApplicationLifetime>(),
         sp.GetRequiredService<IApplicationLaunchService>()));
 
 await builder.Build().RunAsync();
