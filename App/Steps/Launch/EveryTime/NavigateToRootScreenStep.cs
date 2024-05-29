@@ -7,7 +7,7 @@ namespace snowcoreBlog.Console.App.Steps.Launch.EveryTime;
 
 public class NavigateToRootScreenStep(IConsoleNavigationService navigation) : IStep<LaunchDelegate, LaunchContext>
 {
-    public async Task InvokeAsync(LaunchContext context, LaunchDelegate next)
+    public async Task InvokeAsync(LaunchContext context, LaunchDelegate next, CancellationToken token = default)
     {
         await navigation.NavigateToRootAsync();
         await next(context);
