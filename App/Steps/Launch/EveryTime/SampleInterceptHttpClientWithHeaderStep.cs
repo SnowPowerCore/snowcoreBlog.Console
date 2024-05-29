@@ -13,7 +13,8 @@ public class SampleInterceptHttpClientWithHeaderStep : IStep<LaunchDelegate, Lau
         httpClientInterceptor.BeforeSendAsync += HttpClientBeforeSendAsync;
     }
 
-    public Task InvokeAsync(LaunchContext context, LaunchDelegate next) => next(context);
+    public Task InvokeAsync(LaunchContext context, LaunchDelegate next, CancellationToken token = default) =>
+        next(context);
 
     private Task HttpClientBeforeSendAsync(object sender, HttpClientInterceptorEventArgs e)
     {
