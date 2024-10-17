@@ -49,29 +49,29 @@ var retryPolicy = HttpPolicyExtensions
 
 builder.AddServiceDefaults();
 
-builder.Services.AddSingleton<ILocalStorage>(sp =>
+builder.Services.AddSingleton<ILocalStorage>(static sp =>
     new LocalStorage(new LocalStorageConfiguration { AutoLoad = true, AutoSave = true }));
-builder.Services.AddSingleton<ILocalStorageService>(sp =>
+builder.Services.AddSingleton<ILocalStorageService>(static sp =>
     new SingleFileLocalStorageService(sp.GetRequiredService<ILocalStorage>()));
-builder.Services.AddSingleton<IResourceService>(sp =>
+builder.Services.AddSingleton<IResourceService>(static sp =>
     new JsonLocalResourceService(sp.GetRequiredService<IOptions<ResourceSettings>>()));
-builder.Services.AddSingleton<IConsoleService>(sp => new StandardConsoleService());
-builder.Services.AddSingleton<IConsoleNavigationService>(sp =>
+builder.Services.AddSingleton<IConsoleService>(static sp => new StandardConsoleService());
+builder.Services.AddSingleton<IConsoleNavigationService>(static sp =>
     new ConsoleNavigationService(sp.GetRequiredService<IOptions<KnownScreens>>(),
         sp.GetRequiredService<IServiceProvider>()));
-builder.Services.AddSingleton<IApplicationLaunchService>(sp =>
+builder.Services.AddSingleton<IApplicationLaunchService>(static sp =>
     new ConsoleApplicationLaunchService(sp, sp.GetRequiredService<IVersionTrackingService>()));
-builder.Services.AddSingleton<IConsoleApplicationService>(sp =>
+builder.Services.AddSingleton<IConsoleApplicationService>(static sp =>
     new ConsoleApplicationService(sp.GetRequiredService<IHostApplicationLifetime>(),
         sp.GetRequiredService<IConsoleApplicationInfrastructureService>(), sp.GetRequiredService<ITelemetryService>(),
         sp.GetRequiredService<IVersionTrackingService>()));
-builder.Services.AddSingleton<IConsoleApplicationInfrastructureService>(sp =>
+builder.Services.AddSingleton<IConsoleApplicationInfrastructureService>(static sp =>
     new ConsoleApplicationInfrastructureService(sp.GetRequiredService<IConsoleNavigationService>(),
         sp.GetRequiredService<IConsoleService>(), sp.GetRequiredService<IResourceService>()));
-builder.Services.AddSingleton<IVersionTrackingService>(sp =>
+builder.Services.AddSingleton<IVersionTrackingService>(static sp =>
     new LocalVersionTrackingService(sp.GetRequiredService<ILocalStorageService>()));
 builder.Services.AddSingleton<TelemetryClient>();
-builder.Services.AddSingleton<ITelemetryService>(sp =>
+builder.Services.AddSingleton<ITelemetryService>(static sp =>
     new ApplicationInsightsTelemetryService(sp.GetRequiredService<TelemetryClient>()));
 // builder.Services
 //     .AddRefitClient<ISampleApi>()
@@ -83,27 +83,27 @@ builder.Services.AddSingleton<ITelemetryService>(sp =>
 //     .AddPolicyHandler(retryPolicy);
 builder.Services.AddHttpClientInterceptor();
 
-builder.Services.AddSingleton(sp => new HandleLaunchErrorsStep(sp.GetRequiredService<IConsoleApplicationService>()));
-builder.Services.AddSingleton(sp => new SampleInterceptHttpClientWithHeaderStep(
+builder.Services.AddSingleton(static sp => new HandleLaunchErrorsStep(sp.GetRequiredService<IConsoleApplicationService>()));
+builder.Services.AddSingleton(static sp => new SampleInterceptHttpClientWithHeaderStep(
     sp.GetRequiredService<IHttpClientInterceptor>()));
-builder.Services.AddSingleton(sp => new NavigateToRootScreenStep(sp.GetRequiredService<IConsoleNavigationService>()));
+builder.Services.AddSingleton(static sp => new NavigateToRootScreenStep(sp.GetRequiredService<IConsoleNavigationService>()));
 
-builder.Services.AddSingleton(sp => new ScreenBase(sp.GetRequiredService<IConsoleApplicationService>()));
-builder.Services.AddSingleton(sp => new MainScreen(sp.GetRequiredService<IConsoleApplicationService>()));
+builder.Services.AddSingleton(static sp => new ScreenBase(sp.GetRequiredService<IConsoleApplicationService>()));
+builder.Services.AddSingleton(static sp => new MainScreen(sp.GetRequiredService<IConsoleApplicationService>()));
 
-builder.Services.Configure<ResourceSettings>(rs =>
+builder.Services.Configure<ResourceSettings>(static rs =>
 {
     rs.UseBase = true;
 });
 
-builder.Services.Configure<KnownScreens>(ks =>
+builder.Services.Configure<KnownScreens>(static ks =>
 {
     ks.KnownScreenTypes.Add("_default", ks.RootScreenType = typeof(MainScreen));
 });
 
 builder.Services.AddOptions();
 
-builder.Services.AddHostedService(sp =>
+builder.Services.AddHostedService(static sp =>
     new ApplicationLaunchWorker(sp.GetRequiredService<IHostApplicationLifetime>(),
         sp.GetRequiredService<IApplicationLaunchService>()));
 
