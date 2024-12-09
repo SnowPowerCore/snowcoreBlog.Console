@@ -48,6 +48,7 @@ var retryPolicy = HttpPolicyExtensions
     ]);
 
 builder.AddServiceDefaults();
+builder.Services.AddProblemDetails();
 
 builder.Services.AddSingleton<ILocalStorage>(static sp =>
     new LocalStorage(new LocalStorageConfiguration { AutoLoad = true, AutoSave = true }));
