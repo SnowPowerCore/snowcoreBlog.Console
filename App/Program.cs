@@ -31,6 +31,11 @@ using snowcoreBlog.VersionTracking.Implementations.Services;
 using snowcoreBlog.VersionTracking.Interfaces;
 
 var builder = Host.CreateApplicationBuilder(args);
+builder.ConfigureContainer(new DefaultServiceProviderFactory(new ServiceProviderOptions
+{
+    ValidateScopes = true,
+    ValidateOnBuild = true
+}));
 
 builder.Configuration.SetFileProvider(new EmbeddedFileProvider(typeof(Program).Assembly));
 var jsonFiles = Directory.EnumerateFiles("Config", "*.json", SearchOption.AllDirectories);
