@@ -2,11 +2,11 @@
 using Microsoft.Extensions.Options;
 using MinimalStepifiedSystem.Utils;
 using snowcoreBlog.Console.App.Interfaces;
-using snowcoreBlog.Console.App.Models;
+using snowcoreBlog.Console.App.Options;
 
 namespace snowcoreBlog.Console.App.Services;
 
-public class ConsoleNavigationService(IOptions<KnownScreens> knownScreens,
+public class ConsoleNavigationService(IOptions<KnownScreenOptions> knownScreens,
                                       IServiceProvider serviceProvider) : IConsoleNavigationService
 {
     private readonly IList<IConsoleScreen> _screenStack = [];
