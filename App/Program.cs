@@ -12,6 +12,7 @@ using snowcoreBlog.ApplicationLaunch.Implementations.BackgroundServices;
 using snowcoreBlog.ApplicationLaunch.Interfaces;
 using snowcoreBlog.Console.App.Interfaces;
 using snowcoreBlog.Console.App.Models;
+using snowcoreBlog.Console.App.Options;
 using snowcoreBlog.Console.App.Screens;
 using snowcoreBlog.Console.App.Services;
 using snowcoreBlog.Console.App.Steps.Launch.EveryTime;
@@ -63,7 +64,7 @@ builder.Services.AddSingleton<IResourceService>(static sp =>
     new JsonLocalResourceService(sp.GetRequiredService<IOptions<ResourceSettings>>()));
 builder.Services.AddSingleton<IConsoleService>(static sp => new StandardConsoleService());
 builder.Services.AddSingleton<IConsoleNavigationService>(static sp =>
-    new ConsoleNavigationService(sp.GetRequiredService<IOptions<KnownScreens>>(),
+    new ConsoleNavigationService(sp.GetRequiredService<IOptions<KnownScreenOptions>>(),
         sp.GetRequiredService<IServiceProvider>()));
 builder.Services.AddSingleton<IApplicationLaunchService>(static sp =>
     new ConsoleApplicationLaunchService(sp, sp.GetRequiredService<IVersionTrackingService>()));
@@ -102,7 +103,7 @@ builder.Services.Configure<ResourceSettings>(static rs =>
     rs.UseBase = true;
 });
 
-builder.Services.Configure<KnownScreens>(static ks =>
+builder.Services.Configure<KnownScreenOptions>(static ks =>
 {
     ks.KnownScreenTypes.Add("_default", ks.RootScreenType = typeof(MainScreen));
 });

@@ -1,8 +1,9 @@
 ﻿using MinimalStepifiedSystem.Utils;
+using snowcoreBlog.Console.App.Models;
 
-namespace snowcoreBlog.Console.App.Models;
+namespace snowcoreBlog.Console.App.Options;
 
-public record KnownScreens
+public record KnownScreenOptions
 {
     public DictionaryWithDefault<string, Type> KnownScreenTypes { get; init; } =
         new(defaultValue: typeof(ScreenBase));
