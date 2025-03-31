@@ -28,11 +28,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>Resources\%(RecursiveDir)\%(Filename)%(Extension)</TargetPath>
     </ContentWithTargetPath>
+    <AdditionalFiles Include="Resources\Resource.json" 
+                     NamespaceName="snowcoreBlog.Console.App.Resources"
+                     ClassName="Resource" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Config\*.json" />
-    <EmbeddedResource Include="Resources\*.json" />
     <EmbeddedResource Include="appsettings.json" />
   </ItemGroup>
 
