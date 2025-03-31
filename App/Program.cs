@@ -22,9 +22,6 @@ using snowcoreBlog.HttpClientInterception.Implementations.Extensions;
 using snowcoreBlog.HttpClientInterception.Interfaces;
 using snowcoreBlog.LocalStorage.Implementations.Services;
 using snowcoreBlog.LocalStorage.Interfaces;
-using snowcoreBlog.ResourceLoading.Implementations.Services;
-using snowcoreBlog.ResourceLoading.Interfaces;
-using snowcoreBlog.ResourceLoading.Models;
 using snowcoreBlog.ServiceDefaults.Extensions;
 using snowcoreBlog.TelemetryHandling.Implementations.Services;
 using snowcoreBlog.TelemetryHandling.Interfaces;
@@ -60,8 +57,6 @@ builder.Services.AddSingleton<ILocalStorage>(static sp =>
     new LocalStorage(new LocalStorageConfiguration { AutoLoad = true, AutoSave = true }));
 builder.Services.AddSingleton<ILocalStorageService>(static sp =>
     new SingleFileLocalStorageService(sp.GetRequiredService<ILocalStorage>()));
-builder.Services.AddSingleton<IResourceService>(static sp =>
-    new JsonLocalResourceService(sp.GetRequiredService<IOptions<ResourceSettings>>()));
 builder.Services.AddSingleton<IConsoleService>(static sp => new StandardConsoleService());
 builder.Services.AddSingleton<IConsoleNavigationService>(static sp =>
     new ConsoleNavigationService(sp.GetRequiredService<IOptions<KnownScreenOptions>>(),
@@ -74,7 +69,7 @@ builder.Services.AddSingleton<IConsoleApplicationService>(static sp =>
         sp.GetRequiredService<IVersionTrackingService>()));
 builder.Services.AddSingleton<IConsoleApplicationInfrastructureService>(static sp =>
     new ConsoleApplicationInfrastructureService(sp.GetRequiredService<IConsoleNavigationService>(),
-        sp.GetRequiredService<IConsoleService>(), sp.GetRequiredService<IResourceService>()));
+        sp.GetRequiredService<IConsoleService>()));
 builder.Services.AddSingleton<IVersionTrackingService>(static sp =>
     new LocalVersionTrackingService(sp.GetRequiredService<ILocalStorageService>()));
 builder.Services.AddSingleton<TelemetryClient>();
@@ -97,11 +92,6 @@ builder.Services.AddSingleton(static sp => new NavigateToRootScreenStep(sp.GetRe
 
 builder.Services.AddSingleton(static sp => new ScreenBase(sp.GetRequiredService<IConsoleApplicationService>()));
 builder.Services.AddSingleton(static sp => new MainScreen(sp.GetRequiredService<IConsoleApplicationService>()));
-
-builder.Services.Configure<ResourceSettings>(static rs =>
-{
-    rs.UseBase = true;
-});
 
 builder.Services.Configure<KnownScreenOptions>(static ks =>
 {

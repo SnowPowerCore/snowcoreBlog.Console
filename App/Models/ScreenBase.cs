@@ -1,5 +1,4 @@
 ﻿using MinimalStepifiedSystem.Utils;
-using snowcoreBlog.Console.App.Constants;
 using snowcoreBlog.Console.App.Interfaces;
 
 namespace snowcoreBlog.Console.App.Models;
@@ -16,7 +15,7 @@ public class ScreenBase : IConsoleScreen
 
     public ScreenBase(IConsoleApplicationService application)
     {
-        WelcomeMessage = application.Infrastructure.Resources[AppTranslations.WelcomeMessage];
+        WelcomeMessage = Resources.Resource.WelcomeMessage;
         Commands = new(defaultValue: new(AskAgainAsync))
         {
             ["help"] = new(HelpAsync, "Displays a list of available commands with their descriptions."),
