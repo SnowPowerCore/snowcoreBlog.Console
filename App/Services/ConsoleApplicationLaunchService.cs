@@ -18,9 +18,7 @@ public class ConsoleApplicationLaunchService : IApplicationLaunchService
     ])]
     protected LaunchDelegate EveryTimeLaunch { get; }
 
-    [ServiceProviderSupplier]
-    public ConsoleApplicationLaunchService(IServiceProvider _,
-                                           IVersionTrackingService versionTracking)
+    public ConsoleApplicationLaunchService(IVersionTrackingService versionTracking)
     {
         _versionTracking = versionTracking;
 

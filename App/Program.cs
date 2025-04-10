@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using MinimalStepifiedSystem.Core.Extensions;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Timeout;
@@ -62,7 +63,7 @@ builder.Services.AddSingleton<IConsoleNavigationService>(static sp =>
     new ConsoleNavigationService(sp.GetRequiredService<IOptions<KnownScreenOptions>>(),
         sp.GetRequiredService<IServiceProvider>()));
 builder.Services.AddSingleton<IApplicationLaunchService>(static sp =>
-    new ConsoleApplicationLaunchService(sp, sp.GetRequiredService<IVersionTrackingService>()));
+    new ConsoleApplicationLaunchService(sp.GetRequiredService<IVersionTrackingService>()));
 builder.Services.AddSingleton<IConsoleApplicationService>(static sp =>
     new ConsoleApplicationService(sp.GetRequiredService<IHostApplicationLifetime>(),
         sp.GetRequiredService<IConsoleApplicationInfrastructureService>(), sp.GetRequiredService<ITelemetryService>(),
@@ -104,4 +105,6 @@ builder.Services.AddHostedService(static sp =>
     new ApplicationLaunchWorker(sp.GetRequiredService<IHostApplicationLifetime>(),
         sp.GetRequiredService<IApplicationLaunchService>()));
 
-await builder.Build().RunAsync();
+var host = builder.Build();
+host.UseStepifiedSystem();
+await host.RunAsync();
