@@ -26,7 +26,7 @@ public class ScreenBase : IConsoleScreen
 
     public async Task InitScreenAsync()
     {
-        if (!string.IsNullOrEmpty(WelcomeMessage))
+        if (!string.IsNullOrWhiteSpace(WelcomeMessage))
             Application.Infrastructure.Console.PrintLine(WelcomeMessage);
 
         await InitAsync();
@@ -57,7 +57,7 @@ public class ScreenBase : IConsoleScreen
             Application.Infrastructure.Console.PrintLine();
             input = Application.Infrastructure.Console.ReadLine();
         }
-        while (string.IsNullOrEmpty(input));
+        while (string.IsNullOrWhiteSpace(input));
         await Commands[input.ToLower()].ExecuteAsync();
         _ = ReturnToWaitForCommandInputAsync();
     }
