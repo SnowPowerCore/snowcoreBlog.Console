@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using MinimalStepifiedSystem.Core.Extensions;
+using MinimalStepifiedSystem.Extensions;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Timeout;
