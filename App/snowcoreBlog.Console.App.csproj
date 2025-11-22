@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="snowcoreBlog.ResourceLoading" Version="0.0.3" />
+    <PackageReference Include="kli.Localize" Version="2.0.4" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.0" />
     <PackageReference Include="Fody" Version="6.9.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -29,7 +29,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>Resources\%(RecursiveDir)\%(Filename)%(Extension)</TargetPath>
     </ContentWithTargetPath>
-    <AdditionalFiles Include="Resources\Resource_*.json" NamespaceName="snowcoreBlog.Console.App.Resources" ClassName="Resource" NeutralCulture="en" />
+    <Localize Include="Resources\Resource_*.json" NamespaceName="snowcoreBlog.Console.App.Resources" ClassName="Resource" NeutralCulture="en" />
   </ItemGroup>
 
   <ItemGroup>
