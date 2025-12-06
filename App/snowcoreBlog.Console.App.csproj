@@ -8,15 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="kli.Localize" Version="2.0.4" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.0" />
-    <PackageReference Include="Fody" Version="6.9.3">
+    <PackageReference Include="kli.Localize" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" />
+    <PackageReference Include="Fody">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="ConfigureAwait.Fody" Version="3.3.2" />
-    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="10.0.0" />
-    <PackageReference Include="Polly" Version="8.6.4" />
+    <PackageReference Include="ConfigureAwait.Fody" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" />
+    <PackageReference Include="Polly" />
   </ItemGroup>
 
   <ItemGroup>
