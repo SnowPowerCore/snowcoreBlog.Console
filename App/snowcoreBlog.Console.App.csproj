@@ -19,12 +19,10 @@
     <PackageReference Include="Polly" />
     <PackageReference Include="RazorConsole.Core" />
     <PackageReference Include="Ixnas.AltchaNet" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="Apizr" />
     <PackageReference Include="Apizr.Integrations.FileTransfer.MediatR" />
     <PackageReference Include="Apizr.Integrations.Fusillade" />
     <PackageReference Include="Apizr.Integrations.MediatR" />
-    <PackageReference Include="MediatR" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,8 +1,5 @@
-﻿using Apizr;
-using FluentValidation;
-using Hanssens.Net;
+﻿using Hanssens.Net;
 using Ixnas.AltchaNet;
-using MediatR;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +17,6 @@ using snowcoreBlog.ApplicationLaunch.Interfaces;
 using snowcoreBlog.Console.App.Components;
 using snowcoreBlog.Console.App.Interfaces;
 using snowcoreBlog.Console.App.Options;
-using snowcoreBlog.Console.App.Protocol.Sse;
 using snowcoreBlog.Console.App.Services;
 using snowcoreBlog.Console.App.Steps.Launch.EveryTime;
 using snowcoreBlog.ConsoleHandling.Implementations.Services;
@@ -31,7 +27,6 @@ using snowcoreBlog.LocalStorage.Implementations.Services;
 using snowcoreBlog.LocalStorage.Interfaces;
 using snowcoreBlog.PublicApi.Api;
 using snowcoreBlog.PublicApi.Extensions;
-using snowcoreBlog.PublicApi.Validation.Dto;
 using snowcoreBlog.ServiceDefaults.Extensions;
 using snowcoreBlog.TelemetryHandling.Implementations.Services;
 using snowcoreBlog.TelemetryHandling.Interfaces;
@@ -145,12 +140,6 @@ builder.Services.AddHttpClient(SseClientNames.ReadersManagement, static (sp, c) 
 // the terminal app solves it locally).
 builder.Services.AddSingleton(static _ => Altcha.CreateSolver());
 
-// Reuse the PublicApi FluentValidation validators directly (same assemblies the
-// frontend validates against).
-builder.Services.AddValidatorsFromAssemblyContaining<RequestCreateReaderAccountValidator>();
-
-// The generated Apizr registrations enable mediation, so the Apizr mediators need
-// an IMediator instance to resolve (the frontend gets one from TimeWarp.State).
 builder.Services.AddMediatR(static cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 
 builder.Services.AddSingleton<ILocalStorage>(static sp =>
