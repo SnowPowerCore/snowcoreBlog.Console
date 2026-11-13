@@ -1,0 +1,116 @@
+@page "/articles/{Slug}"
+@namespace snowcoreBlog.Console.App.Pages
+@inject ArticlesConsoleService ArticlesService
+@inject NavigationManager Navigation
+
+@if (_isLoading)
+{
+    <Spinner Message="@Resource.ArticleLoadingMessage" />
+}
+else if (_errors.Count > 0)
+{
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Red" Title="@Resource.ErrorPanelTitle">
+        <Rows>
+            @foreach (var error in _errors)
+            {
+                <Markup Content="@error" Foreground="Color.Red" />
+            }
+            <Columns>
+                <TextButton Content="@Resource.RetryButtonLabel" OnClick="LoadAsync" BackgroundColor="Color.Default" FocusedColor="Color.Yellow" />
+                <TextButton Content="@Resource.BackButtonLabel" OnClick="GoBack" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+            </Columns>
+        </Rows>
+    </Panel>
+}
+else if (_article is default(ArticleDto))
+{
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Yellow" Title="@Resource.ArticleNotFoundTitle">
+        <Rows>
+            <Markup Content="@Resource.ArticleNotFoundMessage" Foreground="Color.Yellow" />
+            <TextButton Content="@Resource.BackButtonLabel" OnClick="GoBack" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+        </Rows>
+    </Panel>
+}
+else
+{
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Cyan1" Title="@_article.Title">
+        <Rows>
+            <Markup Content="@HeaderMeta" Foreground="Color.Grey70" />
+            <ViewHeightScrollable>
+                @* Rendered by the RazorConsole markdown renderer; the backend
+                   content originates from trusted authors, as in the web app. *@
+                <Markdown Content="@_article.Markdown" />
+            </ViewHeightScrollable>
+            <Columns>
+                <TextButton Content="@Resource.BackButtonLabel" OnClick="GoBack" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+                @if (!string.IsNullOrWhiteSpace(_article.CoverImageUrl))
+                {
+                    <Markup Content="@($"Cover: {_article.CoverImageUrl}")" Foreground="Color.Grey58" />
+                }
+            </Columns>
+        </Rows>
+    </Panel>
+}
+
+@code {
+    [Parameter]
+    public string Slug { get; set; } = string.Empty;
+
+    private bool _isLoading = true;
+    private List<string> _errors = [];
+    private ArticleDto? _article;
+
+    private string HeaderMeta
+    {
+        get
+        {
+            if (_article is default(ArticleDto))
+            {
+                return string.Empty;
+            }
+
+            var tags = _article.Tags is { Length: > 0 } ? $" | {string.Join(", ", _article.Tags)}" : string.Empty;
+            return $"{ConsolePresentation.DateOf(_article.PublishedAt ?? _article.ModifiedAt)} | {_article.Category ?? "Uncategorized"}{tags}";
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        _isLoading = true;
+        _article = null;
+        _errors = [];
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadAsync();
+        }
+    }
+
+    private async Task LoadAsync()
+    {
+        _isLoading = true;
+        _errors = [];
+        await InvokeAsync(StateHasChanged);
+
+        try
+        {
+            var (article, errors) = await ArticlesService.GetArticleBySlugAsync(Slug);
+            _article = article;
+            _errors = errors;
+        }
+        catch (Exception ex)
+        {
+            _errors = [ex.Message];
+        }
+
+        _isLoading = false;
+        // ConfigureAwait weaving strips the sync context: re-enter the renderer
+        // dispatcher before touching component state (same as the web frontend).
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void GoBack() => Navigation.NavigateTo("/");
+}

@@ -1,45 +1,75 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MinimalStepifiedSystem.Utils;
 using snowcoreBlog.Console.App.Interfaces;
 using snowcoreBlog.Console.App.Options;
 
 namespace snowcoreBlog.Console.App.Services;
 
-public class ConsoleNavigationService(IOptions<KnownScreenOptions> knownScreens,
-                                      IServiceProvider serviceProvider) : IConsoleNavigationService
+/// <summary>
+/// Route-stack navigation over the RazorConsole router. The screen-name → route
+/// registry (KnownScreenOptions) and the navigation stack semantics are kept from
+/// the original ScreenBase-based navigation, while the actual page switch is
+/// performed by the Router through NavigationManager.
+/// </summary>
+public class ConsoleNavigationService(IOptions<KnownScreenOptions> knownScreens) : IConsoleNavigationService
 {
-    private readonly IList<IConsoleScreen> _screenStack = [];
+    private readonly IList<string> _screenStack = [];
 
-    public Task NavigateToRootAsync(DictionaryWithDefault<string, object>? additionalData = null)
+    /// <summary>
+    /// Raised for every requested navigation. The root component subscribes and
+    /// forwards the route to NavigationManager on the renderer's dispatcher
+    /// thread, so the stepified launch pipeline can navigate safely from a
+    /// background worker.
+    /// </summary>
+    public event Func<string, Task>? NavigationRequested;
+
+    public async Task NavigateToRootAsync(DictionaryWithDefault<string, object>? additionalData = null)
     {
         _screenStack.Clear();
-        return NavigateToScreenAsync("_default", additionalData);
+        await RaiseNavigationAsync(knownScreens.Value.RootRoute);
     }
 
     public async Task NavigateToScreenAsync(string screenName, DictionaryWithDefault<string, object>? additionalData = null)
     {
-        var screenType = knownScreens.Value.KnownScreenTypes[screenName];
-        var screen = (IConsoleScreen)serviceProvider.GetRequiredService(screenType);
-        await screen.OnScreenAppearingAsync(additionalData);
-        await screen.InitScreenAsync();
-        _screenStack.Add(screen);
+        var route = knownScreens.Value.KnownScreenRoutes[screenName];
+        if (additionalData is not default(DictionaryWithDefault<string, object>) &&
+            additionalData.TryGetValue("route", out var customRoute) && customRoute is string custom)
+        {
+            route = custom;
+        }
+
+        Track(route);
+        await RaiseNavigationAsync(route);
     }
 
     public async Task NavigateBackAsync()
     {
-        var lastScreen = _screenStack.LastOrDefault();
-        if (lastScreen is default(IConsoleScreen))
-            return;
+        if (_screenStack.Count > 0)
+        {
+            _screenStack.RemoveAt(_screenStack.Count - 1);
+        }
 
-        await lastScreen.OnScreenDisappearingAsync();
-        _screenStack.Remove(lastScreen);
+        var previous = _screenStack.LastOrDefault();
+        if (!string.IsNullOrWhiteSpace(previous))
+        {
+            await RaiseNavigationAsync(previous);
+        }
+    }
 
-        var newLastScreen = _screenStack.LastOrDefault();
-        if (newLastScreen is default(IConsoleScreen))
-            return;
+    private void Track(string route)
+    {
+        if (_screenStack.Count == 0 || _screenStack[^1] != route)
+        {
+            _screenStack.Add(route);
+        }
+    }
 
-        await newLastScreen.OnScreenAppearingAsync();
-        await newLastScreen.InitScreenAsync();
+    private async Task RaiseNavigationAsync(string route)
+    {
+        var handler = NavigationRequested;
+        if (handler is not default(Func<string, Task>))
+        {
+            await handler(route);
+        }
     }
 }

@@ -1,0 +1,136 @@
+@page "/"
+@namespace snowcoreBlog.Console.App.Pages
+@inject ArticlesConsoleService ArticlesService
+@inject NavigationManager Navigation
+
+@if (_isLoading)
+{
+    <Spinner Message="@Resource.HomeLoadingArticlesMessage" />
+}
+else if (_errors.Count > 0)
+{
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Red" Title="@Resource.ErrorPanelTitle">
+        <Rows>
+            @foreach (var error in _errors)
+            {
+                <Markup Content="@error" Foreground="Color.Red" />
+            }
+            <TextButton Content="@Resource.RetryButtonLabel" OnClick="LoadAsync" BackgroundColor="Color.Default" FocusedColor="Color.Yellow" />
+        </Rows>
+    </Panel>
+}
+else
+{
+    @* Highlights: newest three articles, like the frontend highlight grid. *@
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Cyan1" Title="@Resource.HomeHighlightsTitle">
+        <Rows>
+            @foreach (var article in _highlights)
+            {
+                <Rows>
+                    <TextButton Content="@article.Title" OnClick="@(() => OpenArticle(article))" BackgroundColor="Color.Default" FocusedColor="Color.Cyan1" />
+                    <Markup Content="@HighlightMeta(article)" Foreground="Color.Grey70" />
+                    <Markup Content="@ConsolePresentation.ExcerptOf(article, 160)" Foreground="Color.Grey58" />
+                    <Newline />
+                </Rows>
+            }
+            @if (_highlights.Count == 0)
+            {
+                <Markup Content="@Resource.HomeNoArticlesMessage" Foreground="Color.Grey70" />
+            }
+        </Rows>
+    </Panel>
+
+    <Newline />
+
+    @* More articles: keyboard-scrollable list of everything else. *@
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Grey58" Title="@Resource.HomeMoreArticlesTitle">
+        @if (_moreArticles.Count == 0)
+        {
+            <Markup Content="@Resource.HomeNoMoreArticlesMessage" Foreground="Color.Grey70" />
+        }
+        else
+        {
+            <Scrollable TItem="ArticleDto" Items="_moreArticles" PageSize="4">
+                <Rows>
+                    @foreach (var article in context.Items)
+                    {
+                        <Rows>
+                            <TextButton Content="@article.Title" OnClick="@(() => OpenArticle(article))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+                            <Markup Content="@ListMeta(article)" Foreground="Color.Grey58" />
+                            <Newline />
+                        </Rows>
+                    }
+                    <Markup Content="@($"Page {context.CurrentOffset + 1} / {context.PagesCount} (arrow keys to scroll)")" Foreground="Color.Grey58" />
+                </Rows>
+            </Scrollable>
+        }
+    </Panel>
+
+    <Newline />
+    <Columns>
+        <TextButton Content="@Resource.RefreshButtonLabel" OnClick="LoadAsync" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+        <Markup Content="@Resource.HomeOpenHint" Foreground="Color.Grey58" />
+    </Columns>
+}
+
+@code {
+    private bool _isLoading = true;
+    private List<string> _errors = [];
+    private List<ArticleDto> _highlights = [];
+    private List<ArticleDto> _moreArticles = [];
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Mirrors the frontend pages: data loads after the first render to avoid
+        // double-fetching during prerender-like initial passes.
+        if (firstRender)
+        {
+            await LoadAsync();
+        }
+    }
+
+    private async Task LoadAsync()
+    {
+        _isLoading = true;
+        _errors = [];
+        await InvokeAsync(StateHasChanged);
+
+        try
+        {
+            var (articles, errors) = await ArticlesService.GetArticlesAsync();
+            if (errors.Count > 0 || articles is default(List<ArticleDto>))
+            {
+                _errors = errors.Count > 0 ? errors : [Resource.ErrorGenericMessage];
+            }
+            else
+            {
+                var ordered = articles
+                    .OrderByDescending(a => a.PublishedAt ?? a.ModifiedAt ?? DateTimeOffset.MinValue)
+                    .ToList();
+                _highlights = ordered.Take(3).ToList();
+                _moreArticles = ordered.Skip(3).ToList();
+            }
+        }
+        catch (Exception ex)
+        {
+            _errors = [ex.Message];
+        }
+
+        _isLoading = false;
+        // ConfigureAwait weaving strips the sync context: re-enter the renderer
+        // dispatcher before touching component state (same as the web frontend).
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void OpenArticle(ArticleDto article) =>
+        Navigation.NavigateTo($"/articles/{Uri.EscapeDataString(string.IsNullOrWhiteSpace(article.Slug) ? article.Id.ToString() : article.Slug)}");
+
+    private static string HighlightMeta(ArticleDto article) =>
+        $"{ConsolePresentation.DateOf(article.PublishedAt)} | {article.Category ?? "Uncategorized"}";
+
+    private static string ListMeta(ArticleDto article)
+    {
+        var tags = article.Tags is { Length: > 0 } ? $" | {string.Join(", ", article.Tags)}" : string.Empty;
+        return $"{ConsolePresentation.DateOf(article.PublishedAt)} | {ConsolePresentation.ExcerptOf(article, 100)}{tags}";
+    }
+}

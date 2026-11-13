@@ -1,0 +1,15 @@
+@page "/register/info/confirm"
+@namespace snowcoreBlog.Console.App.Pages
+@inject NavigationManager Navigation
+
+<Panel Border="BoxBorder.Rounded" BorderColor="Color.Green" Title="@Resource.RegisterConfirmTitle">
+    <Rows>
+        <Markup Content="@Resource.RegisterConfirmBody1" Foreground="Color.Green" />
+        <Markup Content="@Resource.RegisterConfirmBody2" />
+        <Markup Content="@Resource.RegisterConfirmBody3" Foreground="Color.Grey70" />
+        <Columns>
+            <TextButton Content="@Resource.RegisterConfirmLoginButtonLabel" OnClick="@(() => Navigation.NavigateTo("/login"))" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+            <TextButton Content="@Resource.HomeNavLabel" OnClick="@(() => Navigation.NavigateTo("/"))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+        </Columns>
+    </Rows>
+</Panel>

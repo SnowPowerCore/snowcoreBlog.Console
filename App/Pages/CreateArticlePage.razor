@@ -1,0 +1,200 @@
+@page "/articles/create"
+@namespace snowcoreBlog.Console.App.Pages
+@inject ConsoleAccountService Account
+@inject ArticlesConsoleService ArticlesService
+@inject NavigationManager Navigation
+@inject FluentValidation.IValidator<snowcoreBlog.PublicApi.BusinessObjects.Dto.CreateArticleDto> CreateArticleValidator
+
+@if (!Account.Current.IsAuthenticated)
+{
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Yellow" Title="@Resource.CreateArticleAuthRequiredTitle">
+        <Rows>
+            <Markup Content="@Resource.CreateArticleAuthRequiredMessage" Foreground="Color.Yellow" />
+            <Columns>
+                <TextButton Content="@Resource.SignInButtonLabel" OnClick="@(() => Navigation.NavigateTo("/login"))" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+                <TextButton Content="@Resource.BecomeAuthorButtonLabel" OnClick="@(() => Navigation.NavigateTo("/author/become"))" BackgroundColor="Color.Default" FocusedColor="Color.Yellow" />
+            </Columns>
+        </Rows>
+    </Panel>
+}
+else if (!Account.Current.IsAuthor)
+{
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Yellow" Title="@Resource.CreateArticleAuthorRequiredTitle">
+        <Rows>
+            <Markup Content="@Resource.CreateArticleAuthorRequiredMessage" Foreground="Color.Yellow" />
+            <TextButton Content="@Resource.BecomeAuthorButtonLabel" OnClick="@(() => Navigation.NavigateTo("/author/become"))" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+        </Rows>
+    </Panel>
+}
+else if (_createdSlug is not null)
+{
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Green" Title="@Resource.CreateArticleSuccessTitle">
+        <Rows>
+            <Markup Content="@string.Format(Resource.CreateArticleSuccessMessage, _createdSlug)" Foreground="Color.Green" />
+            <Columns>
+                <TextButton Content="@Resource.CreateArticleOpenButtonLabel" OnClick="@(() => Navigation.NavigateTo($"/articles/{_createdSlug}"))" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+                <TextButton Content="@Resource.HomeNavLabel" OnClick="@(() => Navigation.NavigateTo("/"))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+            </Columns>
+        </Rows>
+    </Panel>
+}
+else
+{
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Green" Title="@Resource.CreateArticleTitle">
+        <Rows>
+            <TextInput Label="@Resource.TitleFieldLabel" Value="@_title" ValueChanged="OnTitleChanged" Placeholder="How to bake bread" Expand="true" />
+            <TextInput Label="@Resource.CategoryFieldLabel" Value="@_category" ValueChanged="OnCategoryChanged" Placeholder="cooking" Expand="true" />
+            <TextInput Label="@Resource.TagsFieldLabel" Value="@_tags" ValueChanged="OnTagsChanged" Placeholder="bread, oven (comma separated)" Expand="true" />
+            <TextInput Label="@Resource.CoverImageUrlFieldLabel" Value="@_coverImageUrl" ValueChanged="OnCoverChanged" Placeholder="https://..." Expand="true" />
+            <TextInput Label="@Resource.ExcerptFieldLabel" Value="@_excerpt" ValueChanged="OnExcerptChanged" Placeholder="Short summary shown in lists" Expand="true" />
+            <TextInput Label="@Resource.MetaDescriptionFieldLabel" Value="@_metaDescription" ValueChanged="OnMetaChanged" Placeholder="SEO meta description" Expand="true" />
+
+            <Newline />
+            <Markup Content="@ContentStatusLabel" Foreground="Color.Grey70" />
+            <TextInput Label="@Resource.MarkdownLineFieldLabel"
+                       Value="@_contentLine"
+                       ValueChanged="OnContentLineChanged"
+                       OnSubmit="OnContentLineSubmitted"
+                       Placeholder="Type a markdown line and press Enter (empty line = blank line)"
+                       Expand="true" />
+            <Columns>
+                <TextButton Content="@Resource.MarkdownFinishContentLabel" OnClick="FinishContent" BackgroundColor="Color.Default" FocusedColor="Color.Cyan1" />
+                <TextButton Content="@Resource.MarkdownClearContentLabel" OnClick="ClearContent" BackgroundColor="Color.Default" FocusedColor="Color.Red" />
+                <Markup Content="@ContentStats" Foreground="Color.Grey58" />
+            </Columns>
+
+            <Newline />
+            @foreach (var error in _validationErrors.Concat(_submitErrors))
+            {
+                <Markup Content="@error" Foreground="Color.Red" />
+            }
+            @if (_isSubmitting)
+            {
+                <Spinner Message="@Resource.CreateArticleSubmittingMessage" />
+            }
+            else
+            {
+                <Columns>
+                    <TextButton Content="@Resource.CreateArticleSubmitLabel" OnClick="SubmitAsync" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+                    <TextButton Content="@Resource.CancelButtonLabel" OnClick="@(() => Navigation.NavigateTo("/"))" BackgroundColor="Color.Default" FocusedColor="Color.Red" />
+                </Columns>
+            }
+        </Rows>
+    </Panel>
+}
+
+@code {
+    private string _title = string.Empty;
+    private string _category = string.Empty;
+    private string _tags = string.Empty;
+    private string _coverImageUrl = string.Empty;
+    private string _excerpt = string.Empty;
+    private string _metaDescription = string.Empty;
+    private string _contentLine = string.Empty;
+    private readonly List<string> _contentLines = [];
+    private List<string> _validationErrors = [];
+    private List<string> _submitErrors = [];
+    private bool _isSubmitting;
+    private bool _contentFinished;
+    private string? _createdSlug;
+
+    private string ContentStatusLabel =>
+        _contentFinished ? Resource.MarkdownContentFinishedLabel : Resource.MarkdownContentEditingLabel;
+
+    private string ContentStats =>
+        $"{_contentLines.Count} line(s)";
+
+    private void OnTitleChanged(string? value) { _title = value ?? string.Empty; StateHasChanged(); }
+    private void OnCategoryChanged(string? value) { _category = value ?? string.Empty; StateHasChanged(); }
+    private void OnTagsChanged(string? value) { _tags = value ?? string.Empty; StateHasChanged(); }
+    private void OnCoverChanged(string? value) { _coverImageUrl = value ?? string.Empty; StateHasChanged(); }
+    private void OnExcerptChanged(string? value) { _excerpt = value ?? string.Empty; StateHasChanged(); }
+    private void OnMetaChanged(string? value) { _metaDescription = value ?? string.Empty; StateHasChanged(); }
+    private void OnContentLineChanged(string? value) { _contentLine = value ?? string.Empty; StateHasChanged(); }
+
+    // The terminal has no multi-line widget: content is entered line by line
+    // (Enter appends), then committed with the finish button.
+    private void OnContentLineSubmitted(string line)
+    {
+        if (_contentFinished)
+        {
+            _contentFinished = false;
+            _contentLines.Clear();
+        }
+
+        _contentLines.Add(line);
+        _contentLine = string.Empty;
+        StateHasChanged();
+    }
+
+    private void FinishContent()
+    {
+        if (_contentLine.Length > 0)
+        {
+            _contentLines.Add(_contentLine);
+            _contentLine = string.Empty;
+        }
+
+        _contentFinished = _contentLines.Count > 0;
+        StateHasChanged();
+    }
+
+    private void ClearContent()
+    {
+        _contentLines.Clear();
+        _contentLine = string.Empty;
+        _contentFinished = false;
+        StateHasChanged();
+    }
+
+    private async Task SubmitAsync()
+    {
+        _validationErrors = [];
+        _submitErrors = [];
+
+        var article = new CreateArticleDto
+        {
+            Title = _title.Trim(),
+            Markdown = string.Join('\n', _contentLines),
+            Category = string.IsNullOrWhiteSpace(_category) ? null : _category.Trim(),
+            Tags = _tags.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries),
+            CoverImageUrl = string.IsNullOrWhiteSpace(_coverImageUrl) ? null : _coverImageUrl.Trim(),
+            Excerpt = string.IsNullOrWhiteSpace(_excerpt) ? null : _excerpt.Trim(),
+            MetaDescription = string.IsNullOrWhiteSpace(_metaDescription) ? null : _metaDescription.Trim()
+        };
+
+        var validation = await CreateArticleValidator.ValidateAsync(article);
+        if (!validation.IsValid)
+        {
+            _validationErrors = validation.Errors
+                .Select(e => $"{e.PropertyName}: {e.ErrorMessage}")
+                .ToList();
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        if (_contentLines.Count == 0)
+        {
+            _validationErrors = [Resource.MarkdownContentRequiredMessage];
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        _isSubmitting = true;
+        await InvokeAsync(StateHasChanged);
+
+        var (success, result, errors) = await ArticlesService.CreateArticleAsync(article);
+        _isSubmitting = false;
+
+        if (success && result is not default(CreateArticleResultDto))
+        {
+            _createdSlug = string.IsNullOrWhiteSpace(result.Slug) ? result.Id.ToString() : result.Slug;
+        }
+        else
+        {
+            _submitErrors = errors.Count > 0 ? errors : [Resource.ErrorGenericMessage];
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+}

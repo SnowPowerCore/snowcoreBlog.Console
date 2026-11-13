@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -17,6 +17,14 @@
     <PackageReference Include="ConfigureAwait.Fody" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" />
     <PackageReference Include="Polly" />
+    <PackageReference Include="RazorConsole.Core" />
+    <PackageReference Include="Ixnas.AltchaNet" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="Apizr" />
+    <PackageReference Include="Apizr.Integrations.FileTransfer.MediatR" />
+    <PackageReference Include="Apizr.Integrations.Fusillade" />
+    <PackageReference Include="Apizr.Integrations.MediatR" />
+    <PackageReference Include="MediatR" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +52,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\snowcoreBlog.Universal\ServiceDefaults\snowcoreBlog.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\snowcoreBlog.Universal\PublicApi\snowcoreBlog.PublicApi.csproj" />
     <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\ApplicationLaunch.Implementations\snowcoreBlog.ApplicationLaunch.Implementations.csproj" />
     <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\ConsoleHandling.Implementations\snowcoreBlog.ConsoleHandling.Implementations.csproj" />
     <ProjectReference Include="..\snowcoreBlog.Universal\UniversalModules\HttpClientInterception.Implementations\snowcoreBlog.HttpClientInterception.Implementations.csproj" />

@@ -1,0 +1,98 @@
+@page "/author/become"
+@namespace snowcoreBlog.Console.App.Pages
+@inject ConsoleAccountService Account
+@inject AuthorsConsoleService AuthorsService
+@inject NavigationManager Navigation
+
+<Panel Border="BoxBorder.Rounded" BorderColor="Color.Yellow" Title="@Resource.BecomeAuthorTitle">
+    <Rows>
+        @if (_complete)
+        {
+            <Markup Content="@Resource.BecomeAuthorWelcomeMessage" Foreground="Color.Green" />
+            <Columns>
+                <TextButton Content="@Resource.CreateArticleNavLabel" OnClick="@(() => Navigation.NavigateTo("/articles/create"))" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+                <TextButton Content="@Resource.HomeNavLabel" OnClick="@(() => Navigation.NavigateTo("/"))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+            </Columns>
+        }
+        else if (!Account.Current.IsAuthenticated)
+        {
+            <Markup Content="@Resource.BecomeAuthorNotLoggedInMessage" Foreground="Color.Yellow" />
+            <TextButton Content="@Resource.SignInButtonLabel" OnClick="@(() => Navigation.NavigateTo("/login"))" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+        }
+        else if (Account.Current.IsAuthor)
+        {
+            <Markup Content="@Resource.BecomeAuthorAlreadyAuthorMessage" Foreground="Color.Grey70" />
+            <TextButton Content="@Resource.CreateArticleNavLabel" OnClick="@(() => Navigation.NavigateTo("/articles/create"))" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+        }
+        else
+        {
+            <Markup Content="@Resource.BecomeAuthorFaqIntro" />
+            <Markup Content="@Resource.BecomeAuthorFaqQuestion1" Foreground="Color.Cyan1" />
+            <Markup Content="@Resource.BecomeAuthorFaqAnswer1" Foreground="Color.Grey70" />
+            <Markup Content="@Resource.BecomeAuthorFaqQuestion2" Foreground="Color.Cyan1" />
+            <Markup Content="@Resource.BecomeAuthorFaqAnswer2" Foreground="Color.Grey70" />
+            <Newline />
+            <TextInput Label="@Resource.DisplayNameFieldLabel" Value="@_displayName" ValueChanged="OnDisplayNameChanged" Placeholder="How readers will see you" Expand="true" />
+            @foreach (var error in _errors)
+            {
+                <Markup Content="@error" Foreground="Color.Red" />
+            }
+            @if (_isSubmitting)
+            {
+                <Spinner Message="@Resource.BecomeAuthorSubmittingMessage" />
+            }
+            else
+            {
+                <TextButton Content="@Resource.BecomeAuthorSubmitLabel" OnClick="SubmitAsync" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+            }
+        }
+    </Rows>
+</Panel>
+
+@code {
+    private string _displayName = string.Empty;
+    private List<string> _errors = [];
+    private bool _isSubmitting;
+    private bool _complete;
+
+    private void OnDisplayNameChanged(string? value) { _displayName = value ?? string.Empty; StateHasChanged(); }
+
+    private async Task SubmitAsync()
+    {
+        _errors = [];
+
+        if (string.IsNullOrWhiteSpace(_displayName))
+        {
+            _errors = [Resource.BecomeAuthorErrorDisplayName];
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        var userId = Account.Current.UserId;
+        if (userId is not { } id)
+        {
+            _errors = [Resource.BecomeAuthorErrorUserId];
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        _isSubmitting = true;
+        await InvokeAsync(StateHasChanged);
+
+        var (success, errors) = await AuthorsService.BecomeAuthorAsync(id, _displayName.Trim());
+        if (success)
+        {
+            // The authorAccount claim arrives with the rotated token pair, exactly
+            // like the frontend refreshes its authentication state after the call.
+            await Account.RefreshAsync();
+            _complete = true;
+        }
+        else
+        {
+            _errors = errors;
+        }
+
+        _isSubmitting = false;
+        await InvokeAsync(StateHasChanged);
+    }
+}

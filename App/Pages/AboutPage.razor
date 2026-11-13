@@ -1,0 +1,27 @@
+@page "/about"
+@namespace snowcoreBlog.Console.App.Pages
+@inject NavigationManager Navigation
+
+<Figlet Content="ABOUT" Color="Color.Cyan1" />
+
+<Panel Border="BoxBorder.Rounded" BorderColor="Color.Cyan1" Title="@Resource.AboutWhatTitle">
+    <Markup Content="@Resource.AboutWhatBody" />
+</Panel>
+
+<Newline />
+
+<Columns Expand>
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Green" Title="@Resource.AboutReadingTitle" Expand>
+        <Markup Content="@Resource.AboutReadingBody" />
+    </Panel>
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Yellow" Title="@Resource.AboutWritingTitle" Expand>
+        <Markup Content="@Resource.AboutWritingBody" />
+    </Panel>
+</Columns>
+
+<Newline />
+
+<Columns>
+    <TextButton Content="@Resource.HomeNavLabel" OnClick="@(() => Navigation.NavigateTo("/"))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+    <TextButton Content="@Resource.SignInButtonLabel" OnClick="@(() => Navigation.NavigateTo("/login"))" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+</Columns>

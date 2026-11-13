@@ -1,0 +1,140 @@
+@namespace snowcoreBlog.Console.App.Layout
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject NavigationManager Navigation
+@inject ConsoleAccountService Account
+@inject NotificationsConsoleService NotificationsService
+@inject IConsoleApplicationService Application
+
+<Rows>
+    @* General header: site title, primary navigation, account area. *@
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Grey58">
+        <Columns Expand>
+            <Markup Content="@BlogTitle" Foreground="Color.Cyan1" Decoration="Decoration.Bold" />
+            <TextButton Content="Home" OnClick="@(() => Navigation.NavigateTo("/"))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+            <TextButton Content="About" OnClick="@(() => Navigation.NavigateTo("/about"))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+            @if (IsAuthor)
+            {
+                <TextButton Content="Create Article" OnClick="@(() => Navigation.NavigateTo("/articles/create"))" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+            }
+            @if (Account.Current.IsAuthenticated)
+            {
+                <Markup Content="@AccountLabel" Foreground="Color.Yellow" />
+                @if (!IsAuthor)
+                {
+                    <TextButton Content="Become Author" OnClick="@(() => Navigation.NavigateTo("/author/become"))" BackgroundColor="Color.Default" FocusedColor="Color.Yellow" />
+                }
+                <TextButton Content="Sign Out" OnClick="SignOutAsync" BackgroundColor="Color.Default" FocusedColor="Color.Red" />
+            }
+            else
+            {
+                <TextButton Content="Sign In" OnClick="@(() => Navigation.NavigateTo("/login"))" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+            }
+        </Columns>
+    </Panel>
+
+    @* Top message bar: active technical notifications (ServiceNotifications). *@
+    @if (_notifications.Count > 0)
+    {
+        @foreach (var notification in VisibleNotifications)
+        {
+            <Panel Border="BoxBorder.Rounded" BorderColor="@NotificationColor(notification.Type)" Title="@NotificationTitle(notification)">
+                <Columns Expand>
+                    <Markup Content="@NotificationText(notification)" Foreground="@NotificationColor(notification.Type)" />
+                    @if (notification.IsDismissible)
+                    {
+                        <TextButton Content="Dismiss" OnClick="@(() => Dismiss(notification.Id))" BackgroundColor="Color.Default" FocusedColor="Color.Grey" />
+                    }
+                </Columns>
+            </Panel>
+        }
+    }
+
+    @Body
+
+    <Markup Content="@Footer" Foreground="Color.Grey58" />
+</Rows>
+
+@code {
+    private const string BlogTitle = "snowcore's Blog";
+
+    private List<NotificationDto> _notifications = [];
+    private IReadOnlySet<Guid> _dismissed = new HashSet<Guid>();
+
+    private bool IsAuthor => Account.Current.IsAuthor;
+
+    private string AccountLabel => Account.Current.IsAuthenticated
+        ? string.IsNullOrWhiteSpace(Account.Current.NickName)
+            ? "Signed in"
+            : $"Signed in as {Account.Current.NickName}"
+        : string.Empty;
+
+    private string Footer =>
+        $"Tab: focus | Enter: select | Ctrl+C: exit | {Application.AppVersion} | snowcoreBlog Console";
+
+    private IEnumerable<NotificationDto> VisibleNotifications =>
+        _notifications.Where(n => !_dismissed.Contains(n.Id));
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Account.AuthStateChanged += OnAuthStateChanged;
+            await RefreshShellStateAsync();
+        }
+    }
+
+    private Task OnAuthStateChanged() => InvokeAsync(RefreshShellStateAsync);
+
+    private async Task RefreshShellStateAsync()
+    {
+        _notifications = await NotificationsService.GetActiveAsync();
+        _dismissed = await NotificationsService.GetDismissedAsync();
+        // ConfigureAwait weaving strips the sync context: re-enter the renderer
+        // dispatcher before touching component state.
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task SignOutAsync()
+    {
+        await Account.SignOutAsync();
+        Navigation.NavigateTo("/");
+    }
+
+    private async Task Dismiss(Guid id)
+    {
+        NotificationsService.Dismiss(id);
+        _dismissed = await NotificationsService.GetDismissedAsync();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private static string NotificationTitle(NotificationDto notification) =>
+        notification.Type switch
+        {
+            NotificationTypeDto.Warning => "Warning",
+            NotificationTypeDto.Success => "Success",
+            NotificationTypeDto.Announcement => "Announcement",
+            NotificationTypeDto.Maintenance => "Maintenance",
+            NotificationTypeDto.Outage => "Outage",
+            NotificationTypeDto.FeatureUpdate => "Feature update",
+            _ => "Information"
+        };
+
+    private static string NotificationText(NotificationDto notification) =>
+        string.IsNullOrWhiteSpace(notification.Description)
+            ? notification.Title
+            : $"{notification.Title} - {notification.Description}";
+
+    private static Color NotificationColor(NotificationTypeDto type) => type switch
+    {
+        NotificationTypeDto.Warning => Color.Yellow,
+        NotificationTypeDto.Success => Color.Green,
+        NotificationTypeDto.Announcement => Color.Cyan1,
+        NotificationTypeDto.Maintenance => Color.Orange1,
+        NotificationTypeDto.Outage => Color.Red,
+        NotificationTypeDto.FeatureUpdate => Color.Blue,
+        _ => Color.Grey70
+    };
+
+    public void Dispose() => Account.AuthStateChanged -= OnAuthStateChanged;
+}

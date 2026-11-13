@@ -14,6 +14,7 @@ public class ConsoleApplicationLaunchService : IApplicationLaunchService
     [StepifiedProcess(Steps = [
         typeof(HandleLaunchErrorsStep),
         typeof(SampleInterceptHttpClientWithHeaderStep),
+        typeof(PrefetchClientStateStep),
         typeof(NavigateToRootScreenStep),
     ])]
     protected LaunchDelegate EveryTimeLaunch { get; }

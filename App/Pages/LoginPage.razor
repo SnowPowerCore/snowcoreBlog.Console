@@ -1,0 +1,145 @@
+@page "/login"
+@namespace snowcoreBlog.Console.App.Pages
+@implements IDisposable
+@inject ConsoleAccountService Account
+@inject Microsoft.Extensions.Options.IOptions<ConsoleApiOptions> ApiOptionsAccessor
+@inject NavigationManager Navigation
+
+<Panel Border="BoxBorder.Rounded" BorderColor="Color.Green" Title="@Resource.LoginTitle">
+    <Rows>
+        <Select TItem="string"
+                Options="_methods"
+                Value="@_selectedMethod"
+                ValueChanged="OnMethodChanged"
+                Formatter="@(static (string method) => method)" />
+
+        <Newline />
+
+        @switch (_selectedMethod)
+        {
+            case OneTimeCodeMethod:
+                <TextInput Label="@Resource.EmailFieldLabel" Value="@_email" ValueChanged="OnEmailChanged" Placeholder="reader@example.com" Expand="true" />
+                <TextInput Label="@Resource.OneTimeCodeFieldLabel" Value="@_code" ValueChanged="OnCodeChanged" MaskInput="true" Placeholder="6-digit code from the email" Expand="true" />
+                <Markup Content="@Resource.LoginOtpHint" Foreground="Color.Grey58" />
+                break;
+
+            case PasskeyMethod:
+                <Markup Content="@Resource.LoginPasskeyUnsupportedMessage" Foreground="Color.Yellow" />
+                <Markup Content="@Resource.LoginPasskeyUseOtpMessage" Foreground="Color.Grey58" />
+                break;
+
+            default:
+                <Markup Content="@Resource.LoginExternalUnsupportedMessage" Foreground="Color.Yellow" />
+                @foreach (var provider in _externalProviders)
+                {
+                    <Markup Content="@ExternalUrl(provider)" Foreground="Color.Cyan1" />
+                }
+                <Columns>
+                    @foreach (var provider in _externalProviders)
+                    {
+                        <TextButton Content="@($"Open {provider}")" OnClick="@(() => OpenExternal(provider))" BackgroundColor="Color.Default" FocusedColor="Color.Cyan1" />
+                    }
+                </Columns>
+                <Markup Content="@Resource.LoginExternalHint" Foreground="Color.Grey58" />
+                break;
+        }
+
+        <Newline />
+        @foreach (var error in _errors)
+        {
+            <Markup Content="@error" Foreground="Color.Red" />
+        }
+        @if (_isSubmitting)
+        {
+            <Spinner Message="@Resource.LoginSigningInMessage" />
+        }
+        else if (_selectedMethod == OneTimeCodeMethod)
+        {
+            <Columns>
+                <TextButton Content="@Resource.SignInButtonLabel" OnClick="SignInAsync" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+                <TextButton Content="@Resource.RegisterNavLabel" OnClick="@(() => Navigation.NavigateTo("/register"))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+            </Columns>
+        }
+    </Rows>
+</Panel>
+
+<Newline />
+<Columns>
+    <TextButton Content="@Resource.BackButtonLabel" OnClick="@(() => Navigation.NavigateTo("/"))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+</Columns>
+
+@code {
+    private const string OneTimeCodeMethod = "Authenticator (one-time code)";
+    private const string PasskeyMethod = "Passkey";
+    private const string ExternalMethod = "External provider";
+
+    private static readonly string[] _methods =
+    [
+        OneTimeCodeMethod,
+        PasskeyMethod,
+        ExternalMethod
+    ];
+
+    private static readonly string[] _externalProviders = ["apple", "google", "microsoft"];
+
+    private string _selectedMethod = OneTimeCodeMethod;
+    private string _email = string.Empty;
+    private string _code = string.Empty;
+    private List<string> _errors = [];
+    private bool _isSubmitting;
+
+    protected override void OnInitialized() => Account.AuthStateChanged += OnAuthStateChanged;
+
+    private Task OnAuthStateChanged() => InvokeAsync(() =>
+    {
+        if (Account.Current.IsAuthenticated)
+        {
+            Navigation.NavigateTo("/");
+        }
+    });
+
+    private void OnMethodChanged(string value) { _selectedMethod = value ?? OneTimeCodeMethod; StateHasChanged(); }
+    private void OnEmailChanged(string? value) { _email = value ?? string.Empty; StateHasChanged(); }
+    private void OnCodeChanged(string? value) { _code = value ?? string.Empty; StateHasChanged(); }
+
+    private async Task SignInAsync()
+    {
+        _errors = [];
+        _isSubmitting = true;
+        await InvokeAsync(StateHasChanged);
+
+        var (success, errorMessage) = await Account.SignInWithOneTimeCodeAsync(_email.Trim(), _code.Trim());
+        _isSubmitting = false;
+
+        if (!success)
+        {
+            _errors = [errorMessage ?? Resource.ErrorGenericMessage];
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private string ExternalUrl(string provider) =>
+        $"{ApiOptionsAccessor.Value.GatewayBaseUrl}/api/readers/login/external/{provider}/v1";
+
+    private void OpenExternal(string provider)
+    {
+        // External OAuth round-trips through the system browser; the terminal
+        // cannot receive the callback, so the URL is surfaced and opened for
+        // the user to complete in the browser.
+        try
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(ExternalUrl(provider))
+            {
+                UseShellExecute = true
+            });
+        }
+        catch
+        {
+            _errors = [$"Could not launch a browser. Open manually: {ExternalUrl(provider)}"];
+            StateHasChanged();
+        }
+    }
+
+    public void Dispose() => Account.AuthStateChanged -= OnAuthStateChanged;
+}

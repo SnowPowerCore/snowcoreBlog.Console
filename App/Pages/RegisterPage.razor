@@ -1,0 +1,153 @@
+@page "/register"
+@namespace snowcoreBlog.Console.App.Pages
+@inject ReadersRegistrationConsoleService RegistrationService
+@inject FluentValidation.IValidator<snowcoreBlog.PublicApi.BusinessObjects.Dto.RequestCreateReaderAccountDto> RegisterValidator
+@inject NavigationManager Navigation
+
+<Panel Border="BoxBorder.Rounded" BorderColor="Color.Cyan1" Title="@Resource.RegisterTitle">
+    <Rows>
+        <TextInput Label="@Resource.EmailFieldLabel" Value="@_email" ValueChanged="OnEmailChanged" Placeholder="reader@example.com" Expand="true" />
+        <Columns Expand>
+            <TextInput Label="@Resource.FirstNameFieldLabel" Value="@_firstName" ValueChanged="OnFirstNameChanged" Expand="true" />
+            <Markup Content="  " />
+            <TextInput Label="@Resource.LastNameFieldLabel" Value="@_lastName" ValueChanged="OnLastNameChanged" Expand="true" />
+        </Columns>
+        <Columns Expand>
+            <TextInput Label="@Resource.NickNameFieldLabel" Value="@_nickName" ValueChanged="OnNickNameChanged" Expand="true" />
+            <TextButton Content="@Resource.CheckNicknameButtonLabel" OnClick="CheckNicknameAsync" BackgroundColor="Color.Default" FocusedColor="Color.Cyan1" />
+        </Columns>
+        <TextInput Label="@Resource.PhoneNumberFieldLabel" Value="@_phoneNumber" ValueChanged="OnPhoneNumberChanged" Placeholder="+1 555 010 2030 (optional)" Expand="true" />
+        <Select TItem="string"
+                Options="_consentOptions"
+                Value="@_confirmedAgreementText"
+                ValueChanged="OnConfirmedAgreementChanged"
+                Formatter="@(static (string option) => option)" />
+        <Markup Content="@Resource.RegisterInitialEmailConsentLabel" Foreground="Color.Grey58" />
+        <Markup Content="@_nicknameStatus" Foreground="@_nicknameStatusColor" />
+
+        <Newline />
+        @if (_isSubmitting)
+        {
+            <Spinner Message="@_statusMessage" />
+        }
+        else
+        {
+            <Markup Content="@_statusMessage" Foreground="Color.Grey58" />
+        }
+        @foreach (var error in _validationErrors.Concat(_submitErrors))
+        {
+            <Markup Content="@error" Foreground="Color.Red" />
+        }
+
+        <Columns>
+            <TextButton Content="@Resource.RegisterSubmitLabel" OnClick="SubmitAsync" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+            <TextButton Content="@Resource.CancelButtonLabel" OnClick="@(() => Navigation.NavigateTo("/"))" BackgroundColor="Color.Default" FocusedColor="Color.Red" />
+        </Columns>
+    </Rows>
+</Panel>
+
+@code {
+    private const string YesOption = "Yes, I agree";
+    private const string NoOption = "No";
+    private static readonly string[] _consentOptions = [YesOption, NoOption];
+
+    private string _email = string.Empty;
+    private string _firstName = string.Empty;
+    private string _lastName = string.Empty;
+    private string _nickName = string.Empty;
+    private string _phoneNumber = string.Empty;
+    private string _confirmedAgreementText = NoOption;
+    private string _nicknameStatus = string.Empty;
+    private Color _nicknameStatusColor = Color.Grey70;
+    private string _statusMessage = string.Empty;
+    private List<string> _validationErrors = [];
+    private List<string> _submitErrors = [];
+    private bool _isSubmitting;
+
+    private void OnEmailChanged(string? value) { _email = value ?? string.Empty; StateHasChanged(); }
+    private void OnFirstNameChanged(string? value) { _firstName = value ?? string.Empty; StateHasChanged(); }
+    private void OnLastNameChanged(string? value) { _lastName = value ?? string.Empty; StateHasChanged(); }
+    private void OnNickNameChanged(string? value) { _nickName = value ?? string.Empty; _nicknameStatus = string.Empty; StateHasChanged(); }
+    private void OnPhoneNumberChanged(string? value) { _phoneNumber = value ?? string.Empty; StateHasChanged(); }
+
+    private void OnConfirmedAgreementChanged(string value)
+    {
+        _confirmedAgreementText = value ?? NoOption;
+        StateHasChanged();
+    }
+
+    private async Task CheckNicknameAsync()
+    {
+        _nicknameStatus = Resource.NicknameCheckingMessage;
+        _nicknameStatusColor = Color.Grey70;
+        StateHasChanged();
+
+        var (available, errors) = await RegistrationService.CheckNickNameNotTakenAsync(_nickName.Trim());
+        if (errors.Count > 0)
+        {
+            _nicknameStatus = errors.First();
+            _nicknameStatusColor = Color.Red;
+        }
+        else if (available)
+        {
+            _nicknameStatus = Resource.NicknameAvailableMessage;
+            _nicknameStatusColor = Color.Green;
+        }
+        else
+        {
+            _nicknameStatus = Resource.NicknameTakenMessage;
+            _nicknameStatusColor = Color.Red;
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task SubmitAsync()
+    {
+        _validationErrors = [];
+        _submitErrors = [];
+        _statusMessage = Resource.RegistrationStepWorkingGeneric;
+        var request = new RequestCreateReaderAccountDto
+        {
+            Email = _email.Trim(),
+            FirstName = _firstName.Trim(),
+            LastName = _lastName.Trim(),
+            NickName = _nickName.Trim(),
+            PhoneNumber = _phoneNumber.Trim(),
+            ConfirmedAgreement = _confirmedAgreementText == YesOption,
+            InitialEmailConsent = true
+        };
+
+        var validation = await RegisterValidator.ValidateAsync(request);
+        if (!validation.IsValid)
+        {
+            _validationErrors = validation.Errors
+                .Select(e => $"{e.PropertyName}: {e.ErrorMessage}")
+                .ToList();
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        _isSubmitting = true;
+        await InvokeAsync(StateHasChanged);
+
+        var (success, errors) = await RegistrationService.RequestAccountByEmailAsync(
+            request,
+            stepCode => _ = InvokeAsync(() =>
+            {
+                _statusMessage = ConsolePresentation.ForStep(stepCode);
+                StateHasChanged();
+            }));
+
+        _isSubmitting = false;
+        if (success)
+        {
+            Navigation.NavigateTo("/register/info/confirm");
+            return;
+        }
+
+        _submitErrors = errors;
+        _statusMessage = string.Empty;
+        await InvokeAsync(StateHasChanged);
+    }
+}

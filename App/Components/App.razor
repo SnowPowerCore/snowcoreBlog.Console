@@ -1,0 +1,32 @@
+@namespace snowcoreBlog.Console.App.Components
+@implements IDisposable
+@inject NavigationManager Navigation
+@inject IConsoleNavigationService ConsoleNavigation
+
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="routeData" DefaultLayout="@typeof(snowcoreBlog.Console.App.Layout.MainLayout)" />
+    </Found>
+    <NotFound>
+        <Panel Border="BoxBorder.Rounded" BorderColor="Color.Red" Title="Page not found">
+            <Rows>
+                <Markup Content="Nothing lives at this route." Foreground="Color.Red" />
+                <TextButton Content="Back to home" OnClick="@(() => Navigation.NavigateTo("/"))" FocusedColor="Color.Blue" />
+            </Rows>
+        </Panel>
+    </NotFound>
+</Router>
+
+@code {
+    protected override void OnInitialized()
+    {
+        // Forwards navigation requests coming from the stepified launch pipeline
+        // (ConsoleNavigationService) onto the renderer's dispatcher thread.
+        ConsoleNavigation.NavigationRequested += OnConsoleNavigationRequested;
+    }
+
+    private Task OnConsoleNavigationRequested(string route) =>
+        InvokeAsync(() => Navigation.NavigateTo(route));
+
+    public void Dispose() => ConsoleNavigation.NavigationRequested -= OnConsoleNavigationRequested;
+}

@@ -1,0 +1,146 @@
+@page "/register/complete"
+@namespace snowcoreBlog.Console.App.Pages
+@inject ReadersRegistrationConsoleService RegistrationService
+@inject NavigationManager Navigation
+
+@{
+    var email = QueryValue("Email");
+    var verificationToken = QueryValue("VerificationToken");
+}
+
+<Panel Border="BoxBorder.Rounded" BorderColor="Color.Cyan1" Title="@Resource.CompleteRegistrationTitle">
+    <Rows>
+        <Markup Content="@string.Format(Resource.CompleteRegistrationIntro, email)" Foreground="Color.Grey70" />
+
+        @if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(verificationToken))
+        {
+            <Markup Content="@Resource.CompleteRegistrationMissingTokenMessage" Foreground="Color.Red" />
+        }
+        else if (_completed)
+        {
+            <Markup Content="@Resource.CompleteRegistrationDoneMessage" Foreground="Color.Green" />
+            <TextButton Content="@Resource.RegisterConfirmLoginButtonLabel" OnClick="@(() => Navigation.NavigateTo("/login"))" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+        }
+        else if (_authenticatorSetup is default(SetupReaderAccountAuthenticatorResultDto))
+        {
+            @* Passkeys need a browser WebAuthn stack and are not available in a
+               terminal; the authenticator (TOTP) path is fully supported. *@
+            <Markup Content="@Resource.CompleteRegistrationPasskeyUnsupportedMessage" Foreground="Color.Yellow" />
+            <Newline />
+            <Markup Content="@Resource.CompleteRegistrationAuthenticatorSetupHint" />
+            @if (_isSubmitting)
+            {
+                <Spinner Message="@_statusMessage" />
+            }
+            else
+            {
+                <TextButton Content="@Resource.CompleteRegistrationSetupButtonLabel" OnClick="@(() => SetupAuthenticatorAsync(email, verificationToken))" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+            }
+        }
+        else
+        {
+            <Panel Border="BoxBorder.Rounded" BorderColor="Color.Yellow" Title="@Resource.CompleteRegistrationSecretTitle">
+                <Rows>
+                    <Markup Content="@string.Format(Resource.CompleteRegistrationSecretLabel, _authenticatorSetup.Secret)" Foreground="Color.Yellow" Decoration="Decoration.Bold" />
+                    <Markup Content="@_authenticatorSetup.OtpAuthUri" Foreground="Color.Grey58" />
+                    <Markup Content="@Resource.CompleteRegistrationSecretHint" Foreground="Color.Grey58" />
+                </Rows>
+            </Panel>
+            <Newline />
+            <TextInput Label="@Resource.OneTimeCodeFieldLabel" Value="@_totpCode" ValueChanged="OnCodeChanged" MaskInput="true" Placeholder="6-digit code" Expand="true" />
+            @if (_isSubmitting)
+            {
+                <Spinner Message="@_statusMessage" />
+            }
+            else
+            {
+                <TextButton Content="@Resource.CompleteRegistrationConfirmButtonLabel" OnClick="@(() => ConfirmAsync(email, verificationToken))" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+            }
+        }
+
+        <Newline />
+        @if (_isSubmitting)
+        {
+            <Spinner Message="@_statusMessage" />
+        }
+        @foreach (var error in _errors)
+        {
+            <Markup Content="@error" Foreground="Color.Red" />
+        }
+
+        <Columns>
+            <TextButton Content="@Resource.BackButtonLabel" OnClick="@(() => Navigation.NavigateTo("/"))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+        </Columns>
+    </Rows>
+</Panel>
+
+@code {
+    private SetupReaderAccountAuthenticatorResultDto? _authenticatorSetup;
+    private string _totpCode = string.Empty;
+    private string _statusMessage = string.Empty;
+    private List<string> _errors = [];
+    private bool _isSubmitting;
+    private bool _completed;
+
+    private string QueryValue(string key)
+    {
+        var uri = new Uri(NavigationManagerUri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        return query[key] ?? string.Empty;
+    }
+
+    private string NavigationManagerUri => Navigation.Uri;
+
+    private void OnCodeChanged(string? value) { _totpCode = value ?? string.Empty; StateHasChanged(); }
+
+    private async Task SetupAuthenticatorAsync(string email, string verificationToken)
+    {
+        _errors = [];
+        _isSubmitting = true;
+        _statusMessage = Resource.CompleteRegistrationSettingUpMessage;
+        await InvokeAsync(StateHasChanged);
+
+        var (success, setup, errors) = await RegistrationService.SetupAuthenticatorAsync(email, verificationToken);
+        _isSubmitting = false;
+        _authenticatorSetup = setup;
+        _statusMessage = string.Empty;
+
+        if (!success)
+        {
+            _errors = errors;
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task ConfirmAsync(string email, string verificationToken)
+    {
+        _errors = [];
+        _isSubmitting = true;
+        _statusMessage = Resource.RegistrationStepWorkingGeneric;
+        await InvokeAsync(StateHasChanged);
+
+        var (success, errors) = await RegistrationService.ConfirmWithAuthenticatorAsync(
+            new ConfirmCreateReaderAccountWithAuthenticatorDto
+            {
+                Email = email,
+                VerificationToken = verificationToken,
+                Code = _totpCode.Trim()
+            },
+            stepCode => _ = InvokeAsync(() =>
+            {
+                _statusMessage = ConsolePresentation.ForStep(stepCode);
+                StateHasChanged();
+            }));
+
+        _isSubmitting = false;
+        _completed = success;
+        _statusMessage = string.Empty;
+        if (!success)
+        {
+            _errors = errors;
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+}
