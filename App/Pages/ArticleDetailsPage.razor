@@ -2,6 +2,7 @@
 @namespace snowcoreBlog.Console.App.Pages
 @inject ArticlesConsoleService ArticlesService
 @inject NavigationManager Navigation
+@inject Viewport TerminalViewport
 
 @if (_isLoading)
 {
@@ -33,10 +34,15 @@ else if (_article is default(ArticleDto))
 }
 else
 {
-    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Cyan1" Title="@_article.Title">
+    @* Stretch the article view to the app height: the panel takes every row
+       the header/footer/back-button chrome leaves free, so the reading area
+       fills the terminal at any window size. *@
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Cyan1" Title="@_article.Title" Height="@ArticlePanelHeight">
         <Rows>
             <Markup Content="@HeaderMeta" Foreground="Color.Grey70" />
-            <ViewHeightScrollable>
+            @* LinesToRender=0 fills the arranged viewport height, so the
+               markdown area stretches with the panel at any window size. *@
+            <ViewHeightScrollable LinesToRender="0">
                 @* Rendered by the RazorConsole markdown renderer; the backend
                    content originates from trusted authors, as in the web app. *@
                 <Markdown Content="@_article.Markdown" />
@@ -59,6 +65,12 @@ else
     private bool _isLoading = true;
     private List<string> _errors = [];
     private ArticleDto? _article;
+
+    @* Rows spent outside the article panel: header (3) + footer hint (1) +
+       back-button row (1). The panel takes everything else. *@
+    private const int DetailChromeRows = 5;
+
+    private int ArticlePanelHeight => Math.Max(8, TerminalViewport.Height - DetailChromeRows);
 
     private string HeaderMeta
     {

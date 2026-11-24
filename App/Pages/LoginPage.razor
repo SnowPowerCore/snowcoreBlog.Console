@@ -5,68 +5,70 @@
 @inject Microsoft.Extensions.Options.IOptions<ConsoleApiOptions> ApiOptionsAccessor
 @inject NavigationManager Navigation
 
-<Panel Border="BoxBorder.Rounded" BorderColor="Color.Green" Title="@Resource.LoginTitle">
-    <Rows>
-        <Select TItem="string"
-                Options="_methods"
-                Value="@_selectedMethod"
-                ValueChanged="OnMethodChanged"
-                Formatter="@(static (string method) => method)" />
+<Rows>
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Green" Title="@Resource.LoginTitle">
+        <Rows>
+                <Select TItem="string"
+                        Options="_methods"
+                        Value="@_selectedMethod"
+                        ValueChanged="OnMethodChanged"
+                        Formatter="@(static (string method) => method)" />
 
-        <Newline />
+                <Newline />
 
-        @switch (_selectedMethod)
-        {
-            case OneTimeCodeMethod:
-                <TextInput Label="@Resource.EmailFieldLabel" Value="@_email" ValueChanged="OnEmailChanged" Placeholder="reader@example.com" Expand="true" />
-                <TextInput Label="@Resource.OneTimeCodeFieldLabel" Value="@_code" ValueChanged="OnCodeChanged" MaskInput="true" Placeholder="6-digit code from the email" Expand="true" />
-                <Markup Content="@Resource.LoginOtpHint" Foreground="Color.Grey58" />
-                break;
-
-            case PasskeyMethod:
-                <Markup Content="@Resource.LoginPasskeyUnsupportedMessage" Foreground="Color.Yellow" />
-                <Markup Content="@Resource.LoginPasskeyUseOtpMessage" Foreground="Color.Grey58" />
-                break;
-
-            default:
-                <Markup Content="@Resource.LoginExternalUnsupportedMessage" Foreground="Color.Yellow" />
-                @foreach (var provider in _externalProviders)
+                @switch (_selectedMethod)
                 {
-                    <Markup Content="@ExternalUrl(provider)" Foreground="Color.Cyan1" />
+                    case OneTimeCodeMethod:
+                        <TextInput Label="@Resource.EmailFieldLabel" Value="@_email" ValueChanged="OnEmailChanged" Placeholder="reader@example.com" Expand="true" />
+                        <TextInput Label="@Resource.OneTimeCodeFieldLabel" Value="@_code" ValueChanged="OnCodeChanged" MaskInput="true" Placeholder="6-digit code from the email" Expand="true" />
+                        <Markup Content="@Resource.LoginOtpHint" Foreground="Color.Grey58" />
+                        break;
+
+                    case PasskeyMethod:
+                        <Markup Content="@Resource.LoginPasskeyUnsupportedMessage" Foreground="Color.Yellow" />
+                        <Markup Content="@Resource.LoginPasskeyUseOtpMessage" Foreground="Color.Grey58" />
+                        break;
+
+                    default:
+                        <Markup Content="@Resource.LoginExternalUnsupportedMessage" Foreground="Color.Yellow" />
+                        @foreach (var provider in _externalProviders)
+                        {
+                            <Markup Content="@ExternalUrl(provider)" Foreground="Color.Cyan1" />
+                        }
+                        <Columns>
+                            @foreach (var provider in _externalProviders)
+                            {
+                                <TextButton Content="@($"Open {provider}")" OnClick="@(() => OpenExternal(provider))" BackgroundColor="Color.Default" FocusedColor="Color.Cyan1" />
+                            }
+                        </Columns>
+                        <Markup Content="@Resource.LoginExternalHint" Foreground="Color.Grey58" />
+                        break;
                 }
-                <Columns>
-                    @foreach (var provider in _externalProviders)
-                    {
-                        <TextButton Content="@($"Open {provider}")" OnClick="@(() => OpenExternal(provider))" BackgroundColor="Color.Default" FocusedColor="Color.Cyan1" />
-                    }
-                </Columns>
-                <Markup Content="@Resource.LoginExternalHint" Foreground="Color.Grey58" />
-                break;
-        }
+
+                <Newline />
+                @foreach (var error in _errors)
+                {
+                    <Markup Content="@error" Foreground="Color.Red" />
+                }
+                @if (_isSubmitting)
+                {
+                    <Spinner Message="@Resource.LoginSigningInMessage" />
+                }
+                else if (_selectedMethod == OneTimeCodeMethod)
+                {
+                    <Columns>
+                        <TextButton Content="@Resource.SignInButtonLabel" OnClick="SignInAsync" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
+                        <TextButton Content="@Resource.RegisterNavLabel" OnClick="@(() => Navigation.NavigateTo("/register"))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+                    </Columns>
+                }
+            </Rows>
+        </Panel>
 
         <Newline />
-        @foreach (var error in _errors)
-        {
-            <Markup Content="@error" Foreground="Color.Red" />
-        }
-        @if (_isSubmitting)
-        {
-            <Spinner Message="@Resource.LoginSigningInMessage" />
-        }
-        else if (_selectedMethod == OneTimeCodeMethod)
-        {
-            <Columns>
-                <TextButton Content="@Resource.SignInButtonLabel" OnClick="SignInAsync" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
-                <TextButton Content="@Resource.RegisterNavLabel" OnClick="@(() => Navigation.NavigateTo("/register"))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
-            </Columns>
-        }
-    </Rows>
-</Panel>
-
-<Newline />
-<Columns>
-    <TextButton Content="@Resource.BackButtonLabel" OnClick="@(() => Navigation.NavigateTo("/"))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
-</Columns>
+        <Columns>
+            <TextButton Content="@Resource.BackButtonLabel" OnClick="@(() => Navigation.NavigateTo("/"))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+        </Columns>
+</Rows>
 
 @code {
     private const string OneTimeCodeMethod = "Authenticator (one-time code)";

@@ -2,6 +2,8 @@
 @namespace snowcoreBlog.Console.App.Pages
 @inject ArticlesConsoleService ArticlesService
 @inject NavigationManager Navigation
+@inject Viewport TerminalViewport
+@using Microsoft.AspNetCore.Components.Web
 
 @if (_isLoading)
 {
@@ -21,17 +23,16 @@ else if (_errors.Count > 0)
 }
 else
 {
-    @* Highlights: newest three articles, like the frontend highlight grid. *@
+    @* Highlights: newest three articles, one compact line each so the section
+       keeps a fixed, small height on any terminal. *@
     <Panel Border="BoxBorder.Rounded" BorderColor="Color.Cyan1" Title="@Resource.HomeHighlightsTitle">
         <Rows>
             @foreach (var article in _highlights)
             {
-                <Rows>
+                <Columns Expand>
                     <TextButton Content="@article.Title" OnClick="@(() => OpenArticle(article))" BackgroundColor="Color.Default" FocusedColor="Color.Cyan1" />
                     <Markup Content="@HighlightMeta(article)" Foreground="Color.Grey70" />
-                    <Markup Content="@ConsolePresentation.ExcerptOf(article, 160)" Foreground="Color.Grey58" />
-                    <Newline />
-                </Rows>
+                </Columns>
             }
             @if (_highlights.Count == 0)
             {
@@ -40,33 +41,35 @@ else
         </Rows>
     </Panel>
 
-    <Newline />
-
-    @* More articles: keyboard-scrollable list of everything else. *@
-    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Grey58" Title="@Resource.HomeMoreArticlesTitle">
+    @* More articles: one line per article inside a fill-mode scrollable.
+       LinesToRender=0 takes exactly the rows the terminal has left (no cut-off
+       on small windows), the built-in wheel handler scrolls, and focusing the
+       list enables arrows / PageUp / PageDown / Home / End, so every article
+       stays reachable. *@
+    <Panel Border="BoxBorder.Rounded" BorderColor="Color.Grey58" Title="@Resource.HomeMoreArticlesTitle" Expand>
         @if (_moreArticles.Count == 0)
         {
             <Markup Content="@Resource.HomeNoMoreArticlesMessage" Foreground="Color.Grey70" />
         }
         else
         {
-            <Scrollable TItem="ArticleDto" Items="_moreArticles" PageSize="4">
-                <Rows>
-                    @foreach (var article in context.Items)
-                    {
-                        <Rows>
-                            <TextButton Content="@article.Title" OnClick="@(() => OpenArticle(article))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
-                            <Markup Content="@ListMeta(article)" Foreground="Color.Grey58" />
-                            <Newline />
-                        </Rows>
-                    }
-                    <Markup Content="@($"Page {context.CurrentOffset + 1} / {context.PagesCount} (arrow keys to scroll)")" Foreground="Color.Grey58" />
-                </Rows>
-            </Scrollable>
+            <ViewHeightScrollable LinesToRender="0" Scrollbar="new ScrollbarSettings()">
+                <div data-focusable="true" data-focus-key="more-articles" @onkeydown="context.KeyDownEventHandler">
+                    <Rows>
+                        @foreach (var article in _moreArticles)
+                        {
+                            <Columns Expand>
+                                <TextButton Content="@article.Title" OnClick="@(() => OpenArticle(article))" BackgroundColor="Color.Default" FocusedColor="Color.Blue" />
+                                <Markup Content="@ListMeta(article)" Foreground="Color.Grey58" />
+                            </Columns>
+                        }
+                    </Rows>
+                </div>
+            </ViewHeightScrollable>
+            <Markup Content="@($"{_moreArticles.Count} article(s) - wheel over the list, or Tab to it and use arrow keys")" Foreground="Color.Grey58" />
         }
     </Panel>
 
-    <Newline />
     <Columns>
         <TextButton Content="@Resource.RefreshButtonLabel" OnClick="LoadAsync" BackgroundColor="Color.Default" FocusedColor="Color.Green" />
         <Markup Content="@Resource.HomeOpenHint" Foreground="Color.Grey58" />
@@ -78,6 +81,12 @@ else
     private List<string> _errors = [];
     private List<ArticleDto> _highlights = [];
     private List<ArticleDto> _moreArticles = [];
+
+    @* Rows the home chrome (header/footer/gaps, highlights panel, hint row and
+       the list panel borders + page line) needs besides the article list. The
+       list page size is whatever rows remain, so the section never overflows
+       the terminal and never gets cut on a small window. *@
+    private const int ChromeRows = 16;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
